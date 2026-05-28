@@ -1,25 +1,22 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Basically we create a Job Portal",
+  "description": "HRMS Backend",
   "license": "ISC",
-  "author": "Harsh Jain , Anjali Agarwal , Farhan Khan",
+  "author": "Harsh Jain , farhan Khan , Anjali Agarwal",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start":"nodemon index.js"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cloudinary": "^2.10.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "helmet": "^8.1.0",
     "joi": "^18.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.2",
-    "multer": "^2.1.1"
+    "mongoose": "^9.6.3"
   }
 }
