@@ -4,6 +4,15 @@ const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 const objectIdSchema = Joi.string().pattern(objectIdRegex).message('Invalid Skill ID format');
 
 const registerSchema = Joi.object({
+  title: Joi.string()
+    .max(80)
+    .trim()
+    .required()
+    .messages({
+      'string.empty': 'Professional headline is required',
+      'string.max': 'Professional headline cannot exceed 80 characters'
+    }),
+
   name: Joi.string()
     .min(3)
     .max(64)
@@ -38,24 +47,7 @@ const registerSchema = Joi.object({
     .messages({
       'string.empty': 'Password is required',
       'string.min': 'Password must be at least 8 characters'
-    }),
-  
-  role: Joi.string()
-    .valid('user', 'company', 'hr', 'employee', 'admin')
-    .default('user')
-    .messages({
-      'any.only': 'Invalid user role selected'
-    }),
-  
-  location: Joi.object({
-    country: Joi.string().trim().required().messages({ 'any.required': 'Country is required' }),
-    state: Joi.string().trim().required().messages({ 'any.required': 'State is required' }),
-    city: Joi.string().trim().required().messages({ 'any.required': 'City is required' }),
-    address: Joi.string().trim().max(200).allow('').messages({ 'string.max': 'Address cannot exceed 200 characters' }),
-    pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).messages({ 'string.pattern.base': 'Enter a valid pincode' })
-  }).required().messages({
-    'any.required': 'Location details (country, state, city) are required'
-  })
+    })
 });
 
 const loginSchema = Joi.object({

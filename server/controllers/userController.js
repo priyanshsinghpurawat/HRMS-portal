@@ -5,7 +5,7 @@ import { deleteFromCloudinary } from '../middlewares/uploadMiddleware.js';
 
 export const registerUser = async (req, res, next) => {
   try {
-    const { title , name , email , password } = req.body;
+    const { title , name , email , phone, password } = req.body;
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
@@ -23,6 +23,7 @@ export const registerUser = async (req, res, next) => {
      title,
      name,
      email,
+     phone,
      password
     });
 

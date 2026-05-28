@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         unique: true,
-        required: [true, "Phone number is required"],
+        sparse: true,
         match: [/^\+91[6-9]\d{9}$/, "Enter a valid Indian mobile number"]
     },
     email: {
@@ -171,19 +171,16 @@ const userSchema = new mongoose.Schema({
     location: {
         country: {
             type: String,
-            trim: true,
-            required: [true, "Country is required"]
+            trim: true
         },
         state: {
             type: String,
-            trim: true,
-            required: [true, "State is required"]
+            trim: true
         },
 
         city: {
             type: String,
-            trim: true,
-            required: [true, "City is required"]
+            trim: true
         },
 
         address: {
@@ -216,13 +213,12 @@ const userSchema = new mongoose.Schema({
     }
 );
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
     if (!this.isModified('password')) {
-        return next();
+        return;
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
