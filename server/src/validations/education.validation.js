@@ -10,8 +10,7 @@ export const addEducationSchema = z.object({
         startDate: z.string().datetime("Invalid start date").or(z.date()),
         endDate: z.string().datetime().or(z.date()).optional(),
         currentlyStudying: z.boolean().optional(),
-        grade: z.string().trim().max(20).optional(),
-        description: z.string().trim().max(500).optional()
+        grade: z.string().trim().max(20).optional()
     }).refine(data => {
         if (!data.currentlyStudying && !data.endDate) {
             return false;

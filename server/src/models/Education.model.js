@@ -48,11 +48,6 @@ const educationSchema = new Schema(
             trim: true,
             maxLength: [20, "Grade cannot exceed 20 characters"]
         },
-        description: {
-            type: String,
-            trim: true,
-            maxLength: [500, "Description cannot exceed 500 characters"]
-        }
     },
     {
         timestamps: true
