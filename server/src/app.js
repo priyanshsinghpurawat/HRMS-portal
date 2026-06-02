@@ -22,6 +22,8 @@ app.use(cookieParser());
 import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import educationRouter from "./routes/education.routes.js";
+import certificateRouter from "./routes/certificate.routes.js";
+import experienceRouter from "./routes/experience.routes.js";
 
 import adminRouter from "./routes/admin.routes.js";
 

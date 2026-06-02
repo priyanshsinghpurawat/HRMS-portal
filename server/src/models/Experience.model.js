@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { EXPERIENCE_LEVELS } from "../constants/index.js";
 
 const experienceSchema = new Schema(
     {
@@ -8,38 +9,64 @@ const experienceSchema = new Schema(
             required: true,
             index: true
         },
+
         company: {
             type: String,
             trim: true,
-            required: [true, "Company name is required"],
-            maxLength: 100
+            required: [
+                true,
+                "Company name is required"
+            ],
+            maxlength: 100
         },
+
         title: {
             type: String,
             trim: true,
-            required: [true, "Job title is required"],
-            maxLength: 100
+            required: [
+                true,
+                "Job title is required"
+            ],
+            maxlength: 100
         },
-        location: {
+
+        experienceLevel: {
             type: String,
-            trim: true,
-            maxLength: 100
+            enum: EXPERIENCE_LEVELS,
+            required: [
+                true,
+                "Experience level is required"
+            ]
         },
+
         startDate: {
             type: Date,
-            required: [true, "Start date is required"]
+            required: [
+                true,
+                "Start date is required"
+            ]
         },
+
         endDate: {
-            type: Date
+            type: Date,
+            default: null
         },
+
         currentlyWorking: {
             type: Boolean,
             default: false
         },
+
         description: {
             type: String,
             trim: true,
-            maxLength: 1000
+            maxlength: 1000,
+            default: ""
+        },
+
+        isDeleted: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -47,7 +74,44 @@ const experienceSchema = new Schema(
     }
 );
 
-// Prevent exact duplicate experiences for the same user
-experienceSchema.index({ user: 1, company: 1, title: 1 }, { unique: true });
+/**
+ * Prevent invalid dates
+ */
+experienceSchema.pre("save", function () {
 
-export const Experience = mongoose.model("Experience", experienceSchema);
+    if (
+        this.endDate &&
+        this.startDate > this.endDate
+    ) {
+        throw new Error(
+            "End date cannot be before start date"
+        );
+    }
+
+    /**
+     * Remove endDate if currently working
+     */
+    if (this.currentlyWorking) {
+        this.endDate = null;
+    }
+});
+
+/**
+ * Prevent duplicate experiences
+ */
+experienceSchema.index(
+    {
+        user: 1,
+        company: 1,
+        title: 1,
+        startDate: 1
+    },
+    {
+        unique: true
+    }
+);
+
+export const Experience = mongoose.model(
+    "Experience",
+    experienceSchema
+);

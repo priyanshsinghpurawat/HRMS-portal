@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const certificateSchema = new Schema(
+const certificationSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
@@ -8,24 +8,92 @@ const certificateSchema = new Schema(
             required: true,
             index: true
         },
-        url: {
+
+        certificationName: {
             type: String,
             trim: true,
-            required: [true, "Certificate URL is required"]
+            required: [true, "Certification name is required"],
+            maxlength: [
+                100,
+                "Certification name cannot exceed 100 characters"
+            ]
         },
-        name: {
+
+        issuingOrganization: {
             type: String,
             trim: true,
-            required: [true, "Certificate name is required"]
+            required: [
+                true,
+                "Issuing organization is required"
+            ],
+            maxlength: [
+                100,
+                "Organization name cannot exceed 100 characters"
+            ]
         },
-        issuingAuthority: {
-            type: String,
-            trim: true,
-            required: [true, "Issuing authority is required"]
-        },
-        issuingDate: {
+
+        issueDate: {
             type: Date,
-            required: [true, "Issuing date is required"]
+            required: [true, "Issue date is required"]
+        },
+
+        expirationDate: {
+            type: Date,
+            default: null
+        },
+
+        doesNotExpire: {
+            type: Boolean,
+            default: false
+        },
+
+        credentialId: {
+            type: String,
+            trim: true,
+            default: "",
+            maxlength: [
+                100,
+                "Credential ID cannot exceed 100 characters"
+            ]
+        },
+
+        credentialUrl: {
+            type: String,
+            trim: true,
+            default: "",
+            match: [
+                /^https?:\/\/.+/,
+                "Invalid credential URL"
+            ]
+        },
+
+        description: {
+            type: String,
+            trim: true,
+            default: "",
+            maxlength: [
+                500,
+                "Description cannot exceed 500 characters"
+            ]
+        },
+
+        certificate: {
+            url: {
+                type: String,
+                trim: true,
+                default: ""
+            },
+
+            public_id: {
+                type: String,
+                trim: true,
+                default: ""
+            }
+        },
+
+        isDeleted: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -33,4 +101,35 @@ const certificateSchema = new Schema(
     }
 );
 
-export const Certificate = mongoose.model("Certificate", certificateSchema);
+certificationSchema.pre("save", function () {
+
+    if (
+        this.expirationDate &&
+        this.issueDate > this.expirationDate
+    ) {
+        throw new Error(
+            "Expiration date cannot be before issue date"
+        );
+    }
+
+    if (this.doesNotExpire) {
+        this.expirationDate = null;
+    }
+});
+
+certificationSchema.index(
+    {
+        user: 1,
+        certificationName: 1,
+        issuingOrganization: 1,
+        credentialId: 1
+    },
+    {
+        unique: true
+    }
+);
+
+export const Certification = mongoose.model(
+    "Certification",
+    certificationSchema
+);

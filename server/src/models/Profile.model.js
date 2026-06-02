@@ -53,8 +53,6 @@ const profileSchema = new Schema(
         },
         socialLinks: {
             linkedin: { type: String, trim: true },
-            github: { type: String, trim: true },
-            portfolio: { type: String, trim: true }
         },
         isProfileCompleted: {
             type: Boolean,
