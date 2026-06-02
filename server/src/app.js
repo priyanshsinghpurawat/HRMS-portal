@@ -23,13 +23,31 @@ import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import educationRouter from "./routes/education.routes.js";
 
+import adminRouter from "./routes/admin.routes.js";
+
 // Routes Declaration
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/education",educationRouter);
+app.use("/api/v1/admin", adminRouter);
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec)
+);
+
+
 
 // Global Error Handler
 import { errorHandler } from "./middlewares/error.middleware.js";
 app.use(errorHandler);
+
+app.get('/health', (req, res) => {
+    res.send('Server working fine')
+})
+
 
 export { app };
