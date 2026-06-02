@@ -22,12 +22,15 @@ app.use(cookieParser());
 import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import educationRouter from "./routes/education.routes.js";
+import certificateRouter from "./routes/certificate.routes.js";
+import experienceRouter from "./routes/experience.routes.js";
 
 // Routes Declaration
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
-app.use("/api/v1/education",educationRouter);
-
+app.use("/api/v1/education", educationRouter);
+app.use("/api/v1/certificates", certificateRouter);
+app.use("/api/v1/experience", experienceRouter);
 // Global Error Handler
 import { errorHandler } from "./middlewares/error.middleware.js";
 app.use(errorHandler);
