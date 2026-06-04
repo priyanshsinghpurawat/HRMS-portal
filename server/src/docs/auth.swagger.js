@@ -35,14 +35,6 @@
  *               password:
  *                 type: string
  *                 example: Password@123
- *               role:
- *                 type: string
- *                 enum:
- *                   - user
- *                   - company
- *                   - hr
- *                   - employee
- *                   - admin
  *
  *     responses:
  *       201:
