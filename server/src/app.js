@@ -13,6 +13,7 @@ import educationRouter from "./routes/education.routes.js";
 import certificateRouter from "./routes/certificate.routes.js";
 import experienceRouter from "./routes/experience.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import { companyRouter } from "./routes/company.route.js";
 
 // Error Handler
 import { errorHandler } from "./middlewares/error.middleware.js";
@@ -47,6 +48,7 @@ app.use("/api/v1/education", educationRouter);
 app.use("/api/v1/certificates", certificateRouter);
 app.use("/api/v1/experience", experienceRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/company", companyRouter);
 
 
 app.get("/health", (req, res) => {
