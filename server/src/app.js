@@ -33,6 +33,23 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// Import Routes
+import authRouter from "./routes/auth.routes.js";
+import profileRouter from "./routes/profile.routes.js";
+import educationRouter from "./routes/education.routes.js";
+import certificateRouter from "./routes/certificate.routes.js";
+import experienceRouter from "./routes/experience.routes.js";
+
+import adminRouter from "./routes/admin.routes.js";
+
+// Routes Declaration
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/profile", profileRouter);
+<<<<<<<< < Temporary merge branch 1
+app.use("/api/v1/education", educationRouter);
+app.use("/api/v1/admin", adminRouter);
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
 
 app.use(
     "/api-docs",
@@ -41,19 +58,14 @@ app.use(
 );
 
 
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/profile", profileRouter);
+
+=========
 app.use("/api/v1/education", educationRouter);
 app.use("/api/v1/certificates", certificateRouter);
 app.use("/api/v1/experience", experienceRouter);
-app.use("/api/v1/admin", adminRouter);
-
-
-app.get("/health", (req, res) => {
-    res.status(200).send("Server working fine");
-});
-
-
+>>>>>>>>> Temporary merge branch 2
+// Global Error Handler
+import { errorHandler } from "./middlewares/error.middleware.js";
 app.use(errorHandler);
 
 export { app };
