@@ -7,7 +7,7 @@ const storage = multer.memoryStorage();
 // Profile Image Filter (JPG, JPEG, PNG, WEBP)
 const imageFileFilter = (req, file, cb) => {
     const allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-    
+
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
@@ -22,13 +22,50 @@ const resumeFileFilter = (req, file, cb) => {
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
-    
+
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
         cb(new ApiError(400, "Invalid file type. Only PDF, DOC, and DOCX are allowed for resumes."), false);
     }
 };
+
+const certificateFileFilter = (
+    req,
+    file,
+    cb
+) => {
+
+    const allowedMimeTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "application/pdf"
+    ];
+
+    if (
+        allowedMimeTypes.includes(file.mimetype)
+    ) {
+        cb(null, true);
+    } else {
+        cb(
+            new ApiError(
+                400,
+                "Only JPG, JPEG, PNG, WEBP and PDF files are allowed"
+            ),
+            false
+        );
+    }
+};
+
+export const uploadCertificate = multer({
+    storage,
+    fileFilter: certificateFileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
 export const uploadImage = multer({
     storage,

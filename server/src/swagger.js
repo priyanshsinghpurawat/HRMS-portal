@@ -209,6 +209,156 @@ const options = {
           }
         },
 
+        Certification: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string"
+            },
+
+            user: {
+              type: "string"
+            },
+
+            certificationName: {
+              type: "string",
+              example: "AWS Certified Developer Associate"
+            },
+
+            issuingOrganization: {
+              type: "string",
+              example: "Amazon Web Services"
+            },
+
+            issueDate: {
+              type: "string",
+              format: "date"
+            },
+
+            expirationDate: {
+              type: "string",
+              format: "date",
+              nullable: true
+            },
+
+            doesNotExpire: {
+              type: "boolean"
+            },
+
+            credentialId: {
+              type: "string",
+              example: "AWS-123456"
+            },
+
+            credentialUrl: {
+              type: "string",
+              example: "https://aws.amazon.com/verify"
+            },
+
+            description: {
+              type: "string"
+            },
+
+            certificate: {
+              type: "object",
+              properties: {
+                url: {
+                  type: "string"
+                },
+
+                public_id: {
+                  type: "string"
+                }
+              }
+            },
+
+            isDeleted: {
+              type: "boolean"
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time"
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time"
+            }
+          }
+        },
+
+        Experience: {
+          type: "object",
+
+          properties: {
+            _id: {
+              type: "string"
+            },
+
+            user: {
+              type: "string"
+            },
+
+            company: {
+              type: "string",
+              example: "Google"
+            },
+
+            title: {
+              type: "string",
+              example: "Software Engineer"
+            },
+
+            experienceLevel: {
+              type: "string",
+              enum: [
+                "fresher",
+                "0-1 years",
+                "1-3 years",
+                "3-5 years",
+                "5-7 years",
+                "7-10 years",
+                "10-15 years",
+                "15+ years"
+              ]
+            },
+
+            startDate: {
+              type: "string",
+              format: "date"
+            },
+
+            endDate: {
+              type: "string",
+              format: "date",
+              nullable: true
+            },
+
+            currentlyWorking: {
+              type: "boolean"
+            },
+
+            description: {
+              type: "string"
+            },
+
+            isDeleted: {
+              type: "boolean"
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time"
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time"
+            }
+          }
+        }
+
       }
     },
 
