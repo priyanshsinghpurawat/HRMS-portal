@@ -91,3 +91,25 @@
  *       200:
  *         description: Logout successful
  */
+
+/**
+ * @swagger
+ * /api/v1/auth/current-user:
+ *   get:
+ *     summary: Get current logged-in user details
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *
+ *     responses:
+ *       200:
+ *         description: Current user details fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized - Access token is missing or invalid
+ *       404:
+ *         description: User not found
+ */

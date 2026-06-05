@@ -19,6 +19,11 @@ export const updateProfileSchema = z.object({
             linkedin: z.string().url().optional(),
             github: z.string().url().optional(),
             portfolio: z.string().url().optional()
-        }).optional()
+        }).refine(
+            (data) => data.linkedin || data.github || data.portfolio,
+            {
+                message: "At least one social link is required",
+            }
+        ).optional()
     })
 });

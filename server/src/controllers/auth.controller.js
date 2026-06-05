@@ -95,6 +95,40 @@ const loginUser = asyncHandler(async (req, res) => {
         );
 });
 
+const getCurrentUser =
+    asyncHandler(
+        async (
+            req,
+            res
+        ) => {
+            const user =
+                await User.findById(
+                    req.user._id
+                ).select(
+                    "-password -refreshToken"
+                );
+
+            if (
+                !user
+            ) {
+                throw new ApiError(
+                    404,
+                    "User not found"
+                );
+            }
+
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(
+                        200,
+                        user,
+                        "Current user fetched"
+                    )
+                );
+        }
+    );
+
 const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
@@ -108,13 +142,13 @@ const logoutUser = asyncHandler(async (req, res) => {
         }
     );
 
-    const options =  {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
     }
-    
+
     return res
         .status(200)
         .clearCookie("accessToken", options)
@@ -122,4 +156,4 @@ const logoutUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "User logged out"));
 });
 
-export { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, getCurrentUser, logoutUser };

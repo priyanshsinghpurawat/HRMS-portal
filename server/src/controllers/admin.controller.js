@@ -10,9 +10,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 export const getAllUsers = asyncHandler(
   async (req, res) => {
 
-    const users = await User.find({
-      role: "user"
-    }).select("-password");
+    const users = await User.find({ role: "user" })
+      .select("-password");
 
     return res.status(200).json(
       new ApiResponse(
@@ -29,9 +28,8 @@ export const getAllUsers = asyncHandler(
 export const getUserCount = asyncHandler(
   async (req, res) => {
 
-    const totalUsers = await User.countDocuments({
-      role: "user"
-    });
+    const totalUsers =
+      await User.countDocuments({ role: "user" });
 
     return res.status(200).json(
       new ApiResponse(
@@ -78,12 +76,14 @@ export const getSingleUser = asyncHandler(
 //Block the user if found guilty
 export const blockUser = asyncHandler(
   async (req, res) => {
+    const { reason } = req.body;
 
     const user =
       await User.findByIdAndUpdate(
         req.params.id,
         {
-          isBlocked: true
+          isBlocked: true,
+          blockReason: reason || "No reason provided"
         },
         {
           new: true
@@ -208,12 +208,14 @@ export const getAllCompanies =
 //Block the job if found fraudulent
   export const blockFraudJob =
   asyncHandler(async (req, res) => {
+    const { reason } = req.body;
 
     const job =
       await Job.findByIdAndUpdate(
         req.params.id,
         {
-          isBlocked: true
+          isBlocked: true,
+          blockReason: reason || "No reason provided"
         },
         {
           new: true
@@ -299,7 +301,7 @@ export const getAllCompanies =
 
     const user = await User.findByIdAndUpdate(
         req.params.id,
-        { isBlocked: false },
+        { isBlocked: false, blockReason: "" },
         { new: true }
     );
 
@@ -331,7 +333,7 @@ export const unblockJob = asyncHandler(async (req, res) => {
 
     const job = await Job.findByIdAndUpdate(
         req.params.id,
-        { isBlocked: false },
+        { isBlocked: false, blockReason: "" },
         { new: true }
     );
 
@@ -384,6 +386,93 @@ asyncHandler(async (req, res) => {
             200,
             { pendingCompanies },
             "Pending companies fetched successfully"
+        )
+    );
+});
+
+// Block a company
+export const blockCompany = asyncHandler(async (req, res) => {
+    const { reason } = req.body;
+    const company = await Company.findByIdAndUpdate(
+        req.params.id,
+        { isBlocked: true, blockReason: reason || "No reason provided" },
+        { new: true }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            company,
+            "Company blocked successfully"
+        )
+    );
+});
+
+// Unblock a company
+export const unblockCompany = asyncHandler(async (req, res) => {
+    const company = await Company.findByIdAndUpdate(
+        req.params.id,
+        { isBlocked: false, blockReason: "" },
+        { new: true }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            company,
+            "Company unblocked successfully"
+        )
+    );
+});
+
+// Get all HRs
+export const getAllHRs = asyncHandler(async (req, res) => {
+    const hrs = await User.find({ role: "hr" }).select("-password");
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            hrs,
+            "HRs fetched successfully"
+        )
+    );
+});
+
+// Get total HR count
+export const getHRCount = asyncHandler(async (req, res) => {
+    const totalHRs = await User.countDocuments({ role: "hr" });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            { totalHRs },
+            "HR count fetched successfully"
+        )
+    );
+});
+
+// Get all Employees
+export const getAllEmployees = asyncHandler(async (req, res) => {
+    const employees = await User.find({ role: "employee" }).select("-password");
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            employees,
+            "Employees fetched successfully"
+        )
+    );
+});
+
+// Get total Employee count
+export const getEmployeeCount = asyncHandler(async (req, res) => {
+    const totalEmployees = await User.countDocuments({ role: "employee" });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            { totalEmployees },
+            "Employee count fetched successfully"
         )
     );
 });
