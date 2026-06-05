@@ -103,9 +103,9 @@ const companySchema = new Schema(
         },
 
         isVerified: {
-            type:String,
-            enum:["pending","fullfield","reject"],
-            default:"pending"
+            type: String,
+            enum: ["pending", "fullfield", "reject"],
+            default: "pending"
         },
 
         isActive: {
