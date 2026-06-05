@@ -10,8 +10,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 export const getAllUsers = asyncHandler(
   async (req, res) => {
 
-    const users = await User.find()
-      .select("-password");
+    const users = await User.find({
+      role: "user"
+    }).select("-password");
 
     return res.status(200).json(
       new ApiResponse(
@@ -28,8 +29,9 @@ export const getAllUsers = asyncHandler(
 export const getUserCount = asyncHandler(
   async (req, res) => {
 
-    const totalUsers =
-      await User.countDocuments();
+    const totalUsers = await User.countDocuments({
+      role: "user"
+    });
 
     return res.status(200).json(
       new ApiResponse(

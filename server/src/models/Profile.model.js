@@ -53,6 +53,8 @@ const profileSchema = new Schema(
         },
         socialLinks: {
             linkedin: { type: String, trim: true },
+            github: { type: String, trim: true },
+            profile: { type: String, trim: true }
         },
         isProfileCompleted: {
             type: Boolean,
@@ -65,7 +67,7 @@ const profileSchema = new Schema(
 );
 
 // Middleware to calculate and update isProfileCompleted based on field fullness
-profileSchema.pre("save", async function() {
+profileSchema.pre("save", async function () {
     const requiredFields = ["title", "about", "gender", "location.city"];
     let completed = true;
     for (const field of requiredFields) {
