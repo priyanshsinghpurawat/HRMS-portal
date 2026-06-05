@@ -56,7 +56,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email) {
-        throw new ApiError(400, "email is required");
+        throw new ApiError(400, "Email is required");
     }
 
     const user = await User.findOne({ email }).select("+password");
@@ -71,26 +71,35 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid user credentials");
     }
 
-    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+    const { accessToken, refreshToken } =
+        await generateAccessAndRefreshTokens(user._id);
 
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+    const loggedInUser = await User.findById(user._id)
+        .select("-password -refreshToken");
 
-    const options = {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const cookieOptions = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
-    }
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/"
+    };
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
         .json(
             new ApiResponse(
                 200,
                 {
                     user: loggedInUser,
+                    accessToken,
+                    refreshToken
                 },
-                "User logged In Successfully"
+                "User logged in successfully"
             )
         );
 });
@@ -142,18 +151,26 @@ const logoutUser = asyncHandler(async (req, res) => {
         }
     );
 
-    const options = {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const cookieOptions = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    }
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        path: "/"
+    };
 
     return res
         .status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
-        .json(new ApiResponse(200, {}, "User logged out"));
+        .clearCookie("accessToken", cookieOptions)
+        .clearCookie("refreshToken", cookieOptions)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "User logged out successfully"
+            )
+        );
 });
 
 export { registerUser, loginUser, getCurrentUser, logoutUser };

@@ -116,6 +116,20 @@ const companySchema = new Schema(
         isProfileCompleted: {
             type: Boolean,
             default: false
+        },
+        blocked: {
+            isBlocked: {
+                type: Boolean,
+                default: false
+            },
+            blockedReason: {
+                type: String,
+                default: ""
+            },
+            blockedAt: {
+                type: Date,
+                default: null
+            }
         }
     },
     {
