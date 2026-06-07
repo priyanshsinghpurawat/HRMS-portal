@@ -1,60 +1,48 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { blockSchema } from "../validations/admin.validation.js";
 
 import {
-  getSingleUser,
   getAllUsers,
-  getUserCount,
-  blockUser,
-  unblockUser,
-  deleteUser,
-
-  getSingleCompany,
+  getSingleUser,
   getAllCompanies,
-  approveCompany,
-  rejectCompany,
-  getPendingCompanies,
+  getSingleCompany,
+  getAllHRs,
+  getSingleHR,
+  blockCompany,
+  unblockCompany,
   deleteCompany,
-
-  getCompanyEmployeeCount,
-
-  getSingleJob,
-  getAllJobs,
-  blockFraudJob,
-  unblockJob,
-
-  dashboardStats
+  getActiveCompanies,
+  getActiveUsers,
+  getBlockedCompanies
 } from "../controllers/admin.controller.js";
 
 const router = Router();
 
-// Protect all admin routes
+// Protect all admin routes - only role = admin can access
 router.use(
   verifyJWT,
   authorizeRoles("admin")
 );
 
+// User Management
 router.get("/users", getAllUsers);
-router.get("/users/count", getUserCount);
+router.get("/users/active", getActiveUsers); // Must be before /users/:id
 router.get("/users/:id", getSingleUser);
-router.patch("/users/block/:id", blockUser);
-router.patch("/users/unblock/:id", unblockUser);
-router.delete("/users/:id", deleteUser);
 
+// HR Management
+router.get("/hrs", getAllHRs);
+router.get("/hrs/:id", getSingleHR);
+
+// Company Management
 router.get("/companies", getAllCompanies);
+router.get("/companies/active", getActiveCompanies); // Must be before /companies/:id
+router.get("/companies/blocked", getBlockedCompanies); // Must be before /companies/:id
 router.get("/companies/:id", getSingleCompany);
-router.patch("/companies/approve/:id", approveCompany);
-router.patch("/companies/reject/:id", rejectCompany);
-router.get("/dashboard/pending-companies", getPendingCompanies);
+router.patch("/companies/block/:id", validate(blockSchema), blockCompany);
+router.patch("/companies/unblock/:id", unblockCompany);
 router.delete("/companies/:id", deleteCompany);
-router.get("/companies/:companyId/employees/count", getCompanyEmployeeCount);
-
-router.get("/jobs", getAllJobs);
-router.get("/jobs/:id", getSingleJob);
-router.patch("/jobs/block/:id", blockFraudJob);
-router.patch("/jobs/unblock/:id", unblockJob);
-
-router.get("/dashboard/stats", dashboardStats);
 
 export default router;
