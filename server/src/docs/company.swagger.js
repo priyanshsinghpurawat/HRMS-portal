@@ -61,10 +61,12 @@
  *         gstId:
  *           type: string
  *           example: "22AAAAA1111A1Z1"
- *         isVerified:
- *           type: string
- *           enum: [pending, fullfield, reject]
- *           example: "pending"
+ *         isEmailVerified:
+ *           type: boolean
+ *           example: false
+ *         isBusinessVerified:
+ *           type: boolean
+ *           example: false
  *         isActive:
  *           type: boolean
  *           example: false

@@ -5,7 +5,7 @@ export const registerSchema = z.object({
     body: z.object({
         name: z.string().trim().min(3, "Name must be at least 3 characters").max(64, "Name cannot exceed 64 characters"),
         email: z.string().trim().toLowerCase().email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters").max(32, "Password too long"),
+        password: z.string().min(8, "Password must be at least 8 characters").max(12, "Password too long"),
         phone: z.string().trim().regex(/^\+91[6-9]\d{9}$/, "Enter a valid Indian mobile number (+91 followed by 10 digits)"),
         role: z.enum(Object.values(USER_ROLES)).optional()
     })

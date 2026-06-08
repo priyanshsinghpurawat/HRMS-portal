@@ -26,7 +26,7 @@ const userSchema = new Schema(
             type: String,
             trim: true,
             unique: true,
-            required: [true, "Phone number is required"],
+            sparse: true,
             index: true
         },
 
@@ -43,12 +43,7 @@ const userSchema = new Schema(
             default: USER_ROLES.USER,
             index: true
         },
-
-        isVerified: {
-            type: Boolean,
-            default: false
-        },
-
+        
         accountStatus: {
             type: String,
             enum: ["active", "suspended", "deleted"],
@@ -63,7 +58,43 @@ const userSchema = new Schema(
             type: String
         },
 
-        isBlocked: {
+        blocked: {
+            isBlocked: {
+                type: Boolean,
+                default: false
+            },
+            blockedReason: {
+                type: String,
+                default: ""
+            },
+            blockedAt: {
+                type: Date,
+                default: null
+            }
+        },
+
+        personalEmail: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            unique: true,
+            sparse: true
+        },
+
+        category: {
+            type: String,
+            enum: [
+                "tech",
+                "non-tech",
+                "sales",
+                "marketing",
+                "finance",
+                "operations",
+                "recruitment"
+            ]
+        },
+
+        mustChangePassword: {
             type: Boolean,
             default: false
         }

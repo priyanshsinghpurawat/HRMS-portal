@@ -146,7 +146,7 @@ export const getAllCompanies =
       await Company.findByIdAndUpdate(
         req.params.id,
         {
-          isVerified: true
+          isBusinessVerified: true
         },
         {
           new: true
@@ -171,7 +171,7 @@ export const getAllCompanies =
       await Company.findByIdAndUpdate(
         req.params.id,
         {
-          isVerified: false
+          isBusinessVerified: false
         },
         {
           new: true
@@ -277,7 +277,7 @@ export const getAllCompanies =
 
     const verifiedCompanies =
       await Company.countDocuments({
-        isVerified: true
+        isBusinessVerified: true
       });
 
     return res.status(200).json(
@@ -378,7 +378,7 @@ asyncHandler(async (req, res) => {
 
     const pendingCompanies =
     await Company.countDocuments({
-        isVerified: false
+        isBusinessVerified: false
     });
 
     return res.status(200).json(

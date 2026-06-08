@@ -27,43 +27,10 @@ const companySchema = new Schema(
             type: String,
             trim: true,
             unique: true,
-            match: [/^https?:\/\/.+/, "Invalid website URL"],
-            default: ""
+            sparse: true,
+            match: [/^https?:\/\/.+/, "Invalid website URL"]
         },
-
-        location: {
-            country: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            state: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            city: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            address: {
-                type: String,
-                trim: true,
-                maxlength: 200,
-                default: ""
-            },
-
-            pincode: {
-                type: String,
-                trim: true,
-                default: ""
-            }
-        },
-
+        
         socialLinks: {
             linkedin: {
                 type: String,
@@ -73,10 +40,16 @@ const companySchema = new Schema(
             },
         },
 
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: [true, "Owner ID is required"]
+        },
+
         hrIds: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "HR"
+                ref: "User"
             }
         ],
 
@@ -102,35 +75,35 @@ const companySchema = new Schema(
             ]
         },
 
-        isVerified: {
+        isEmailVerified: {
+            type: Boolean,
+            default: false
+        },
+
+        isBusinessVerified: {
+            type: Boolean,
+            default: false
+        },
+
+        verificationOTP: {
             type: String,
-            enum: ["pending", "fullfield", "reject"],
-            default: "pending"
+            default: ""
+        },
+
+        verificationOTPExpires: {
+            type: Date,
+            default: null
         },
 
         isActive: {
             type: Boolean,
-            default: false
+            default:true
         },
 
         isProfileCompleted: {
             type: Boolean,
             default: false
         },
-        blocked: {
-            isBlocked: {
-                type: Boolean,
-                default: false
-            },
-            blockedReason: {
-                type: String,
-                default: ""
-            },
-            blockedAt: {
-                type: Date,
-                default: null
-            }
-        }
     },
     {
         timestamps: true

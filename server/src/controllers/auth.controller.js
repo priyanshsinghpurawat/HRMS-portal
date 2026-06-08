@@ -4,14 +4,14 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
 import { Profile } from "../models/Profile.model.js";
 
-const generateAccessAndRefreshTokens = async (userId) => {
+export const generateAccessAndRefreshTokens = async (userId, session = null) => {
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).session(session);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
 
         user.refreshToken = refreshToken;
-        await user.save({ validateBeforeSave: false });
+        await user.save({ validateBeforeSave: false, session });
 
         return { accessToken, refreshToken };
     } catch (error) {
@@ -171,6 +171,35 @@ const logoutUser = asyncHandler(async (req, res) => {
                 "User logged out successfully"
             )
         );
+});
+
+export const changePassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    // Fetch user with password selected
+    const user = await User.findById(userId).select("+password");
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    // Verify current password
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+    if (!isPasswordCorrect) {
+        throw new ApiError(400, "Old password is incorrect");
+    }
+
+    // Update password
+    user.password = newPassword;
+    // Set mustChangePassword to false
+    user.mustChangePassword = false;
+
+    await user.save();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
 export { registerUser, loginUser, getCurrentUser, logoutUser };
