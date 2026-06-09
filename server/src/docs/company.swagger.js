@@ -235,7 +235,7 @@
  *                 description: Company logo image (JPG, JPEG, PNG, WEBP)
  *               socialLinks:
  *                 type: string
- *                 description: JSON stringified object representing social links (e.g. '{"linkedin": "url"}')
+ *                 description: JSON stringified object representing social links e.g. linkedin url
  *     responses:
  *       200:
  *         description: Profile updated successfully
