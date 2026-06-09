@@ -23,19 +23,6 @@ export const userEducation = asyncHandler(async (req, res) => {
         grade
     } = req.body;
 
-    if (
-        !institution ||
-        !degree ||
-        !fieldOfStudy ||
-        !educationLevel ||
-        !startDate
-    ) {
-        throw new ApiError(
-            400,
-            "All required fields must be provided"
-        );
-    }
-
     const existingEducation = await Education.findOne({
         user: user._id,
         degree,

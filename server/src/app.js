@@ -14,6 +14,11 @@ import certificateRouter from "./routes/certificate.routes.js";
 import experienceRouter from "./routes/experience.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import companyRouter from './routes/company.route.js';
+import hrRouter from './routes/hr.routes.js';
+import jobRouter from './routes/job.routes.js';
+import applicationRouter from './routes/application.routes.js';
+import offerRouter from './routes/offer.routes.js';
+import { employeeHRRouter, employeeSelfRouter } from './routes/employee.routes.js';
 
 // Error Handler
 import { errorHandler } from "./middlewares/error.middleware.js";
@@ -49,6 +54,12 @@ app.use("/api/v1/certificates", certificateRouter);
 app.use("/api/v1/experience", experienceRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use('/api/v1/company',companyRouter);
+app.use('/api/v1/hr', hrRouter);
+app.use('/api/v1/jobs', jobRouter);
+app.use('/api/v1/applications', applicationRouter);
+app.use('/api/v1/offers', offerRouter);
+app.use('/api/v1/employees', employeeHRRouter);
+app.use('/api/v1/employee', employeeSelfRouter);
 
 app.get("/health", (req, res) => {
     res.status(200).send("Server working fine");

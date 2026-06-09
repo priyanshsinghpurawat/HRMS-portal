@@ -64,18 +64,43 @@ export const createHRSchema = z.object({
             .toLowerCase()
             .email("Invalid email format"),
         category: z.enum([
-            "tech",
-            "non-tech",
-            "sales",
-            "marketing",
-            "finance",
-            "operations",
-            "recruitment"
+            "technical",
+            "non-technical",
+            "senior-recruiter",
+            "manager"
         ], {
             errorMap: () => ({ message: "Invalid category" })
-        })
+        }),
+        designation: z.string().trim().optional(),
+        phone: z.string().trim().optional()
     })
 });
+
+export const updateHRSchema = z.object({
+    body: z.object({
+        personalEmail: z
+            .string()
+            .trim()
+            .toLowerCase()
+            .email("Invalid email format")
+            .optional(),
+        category: z.enum([
+            "technical",
+            "non-technical",
+            "senior-recruiter",
+            "manager"
+        ], {
+            errorMap: () => ({ message: "Invalid category" })
+        }).optional(),
+        designation: z.string().trim().max(100).optional(),
+        phone: z.string().trim().optional()
+    })
+});
+
+export const resetHRPasswordSchema = z.object({
+    body: z.object({}).strict().optional()
+});
+
 
 export const createOrderSchema = z.object({
     body: z.object({
@@ -93,5 +118,29 @@ export const verifyPaymentSchema = z.object({
         plan: z.enum(["1-month", "3-month", "6-month", "1-year"], {
             errorMap: () => ({ message: "Invalid plan selected" })
         })
+    })
+});
+
+export const updateCompanyProfileSchema = z.object({
+    body: z.object({
+        description: z
+            .string()
+            .trim()
+            .max(2000, "Description cannot exceed 2000 characters")
+            .optional(),
+        website: z
+            .string()
+            .trim()
+            .regex(/^https?:\/\/.+/, "Invalid website URL")
+            .optional()
+            .or(z.literal("")),
+        socialLinks: z.object({
+            linkedin: z
+                .string()
+                .trim()
+                .regex(/^https?:\/\/.+/, "Invalid LinkedIn URL")
+                .optional()
+                .or(z.literal(""))
+        }).optional()
     })
 });

@@ -357,6 +357,55 @@ const options = {
               format: "date-time"
             }
           }
+        },
+
+        Application: {
+          type: "object",
+          properties: {
+            _id: { type: "string" },
+            job: { type: "string" },
+            applicant: { type: "string" },
+            resume: { type: "string" },
+            coverLetter: { type: "string" },
+            candidateStatus: { type: "string" },
+            appliedAt: { type: "string", format: "date-time" }
+          }
+        },
+
+        Offer: {
+          type: "object",
+          properties: {
+            _id: { type: "string" },
+            application: { type: "string" },
+            candidate: { type: "string" },
+            company: { type: "string" },
+            designation: { type: "string" },
+            department: { type: "string" },
+            annualCTC: { type: "number" },
+            joiningDate: { type: "string", format: "date" },
+            offerLetterUrl: { type: "string" },
+            status: { type: "string", enum: ["sent", "accepted", "rejected", "expired"] }
+          }
+        },
+
+        Employee: {
+          type: "object",
+          properties: {
+            _id: { type: "string" },
+            user: { type: "string" },
+            company: { type: "string" },
+            employeeId: { type: "string" },
+            personalEmail: { type: "string" },
+            companyEmail: { type: "string" },
+            department: { type: "string" },
+            designation: { type: "string" },
+            joiningDate: { type: "string", format: "date" },
+            reportingManager: { type: "string", nullable: true },
+            employmentStatus: { type: "string", enum: ["active", "inactive", "terminated"] },
+            phone: { type: "string" },
+            address: { type: "string" },
+            emergencyContact: { type: "string" }
+          }
         }
 
       }

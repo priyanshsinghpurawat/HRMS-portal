@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/User.model.js";
+import { HR } from "../models/HR.model.js";
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
@@ -19,6 +20,14 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
             throw new ApiError(401, "Invalid Access Token");
         }
 
+        // Check if HR account is active
+        if (user.role === "hr") {
+            const hrProfile = await HR.findOne({ user: user._id });
+            if (hrProfile && !hrProfile.isActive) {
+                throw new ApiError(403, "Your HR account has been deactivated");
+            }
+        }
+
         // Attach user to request object
         req.user = user;
         next();
@@ -26,3 +35,4 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, error?.message || "Invalid access token");
     }
 });
+

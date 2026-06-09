@@ -15,7 +15,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     }
 
     // Merge req.body properties
-    const allowedUpdates = ["title", "about", "gender", "languages", "experienceLevel", "socialLinks"];
+    const allowedUpdates = ["title", "about", "gender", "languages", "experienceLevel", "socialLinks", "skills"];
     
     for (const key of allowedUpdates) {
         if (req.body[key] !== undefined) {

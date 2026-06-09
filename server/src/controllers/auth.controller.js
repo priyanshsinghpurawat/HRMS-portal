@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
 import { Profile } from "../models/Profile.model.js";
+import { HR } from "../models/HR.model.js";
 
 export const generateAccessAndRefreshTokens = async (userId, session = null) => {
     try {
@@ -69,6 +70,14 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user credentials");
+    }
+
+    // Check if HR account is active
+    if (user.role === "hr") {
+        const hrProfile = await HR.findOne({ user: user._id });
+        if (hrProfile && !hrProfile.isActive) {
+            throw new ApiError(403, "Your HR account is inactive. Please contact your company administrator.");
+        }
     }
 
     const { accessToken, refreshToken } =
