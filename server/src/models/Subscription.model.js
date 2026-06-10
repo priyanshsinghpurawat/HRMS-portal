@@ -14,11 +14,17 @@ const subscriptionSchema = new Schema(
       required: true
     },
 
+    purchasedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+
     plan: {
       type: String,
       enum: [
         "1-month",
-        "2-month",
+        "3-month",
         "6-month",
         "1-year"
       ],
@@ -33,6 +39,11 @@ const subscriptionSchema = new Schema(
     startDate: {
       type: Date,
       required: true
+    },
+
+    startsAt: {
+      type: Date,
+      default: Date.now
     },
 
     expiresAt: {

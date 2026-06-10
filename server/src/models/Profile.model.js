@@ -44,13 +44,7 @@ const profileSchema = new Schema(
             enum: EXPERIENCE_LEVELS,
             default: "fresher"
         },
-        location: {
-            country: { type: String, trim: true, default: "" },
-            state: { type: String, trim: true, default: "" },
-            city: { type: String, trim: true, default: "" },
-            address: { type: String, trim: true, maxLength: 200, default: "" },
-            pincode: { type: String, trim: true }
-        },
+
         socialLinks: {
             linkedin: { type: String, trim: true },
             github: { type: String, trim: true },
@@ -68,18 +62,19 @@ const profileSchema = new Schema(
 
 // Middleware to calculate and update isProfileCompleted based on field fullness
 profileSchema.pre("save", async function () {
-    const requiredFields = ["title", "about", "gender", "location.city"];
+    const requiredFields = ["title", "about", "gender"];
     let completed = true;
     for (const field of requiredFields) {
-        if (field.includes(".")) {
-            const parts = field.split(".");
-            if (!this[parts[0]] || !this[parts[0]][parts[1]]) {
-                completed = false;
-                break;
-            }
-        } else if (!this[field]) {
+        if (!this[field]) {
             completed = false;
             break;
+        }
+    }
+    if (completed) {
+        const Location = mongoose.model("location");
+        const location = await Location.findOne({ ownerId: this.user, ownerType: "User" });
+        if (!location || !location.city) {
+            completed = false;
         }
     }
     this.isProfileCompleted = completed;

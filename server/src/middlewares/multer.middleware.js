@@ -82,3 +82,23 @@ export const uploadResume = multer({
         fileSize: 10 * 1024 * 1024 // 10 MB limit
     }
 });
+
+// Combined Filter for Profile Update (Image + Resume)
+const profileFieldsFileFilter = (req, file, cb) => {
+    if (file.fieldname === "profileImage") {
+        imageFileFilter(req, file, cb);
+    } else if (file.fieldname === "resume") {
+        resumeFileFilter(req, file, cb);
+    } else {
+        cb(new ApiError(400, "Unexpected file field"), false);
+    }
+};
+
+export const uploadProfileFields = multer({
+    storage,
+    fileFilter: profileFieldsFileFilter,
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10 MB limit (supporting the larger resume size limit)
+    }
+});
+

@@ -24,7 +24,17 @@ const paymentSchema = new Schema(
         "company-registration",
         "subscription-renewal"
       ],
-      default: "company-registration"
+      default: "subscription-renewal"
+    },
+
+    plan: {
+      type: String,
+      enum: [
+        "1-month",
+        "3-month",
+        "6-month",
+        "1-year"
+      ]
     },
 
     razorpayOrderId: {
@@ -40,6 +50,21 @@ const paymentSchema = new Schema(
     razorpaySignature: {
       type: String,
       default: ""
+    },
+
+    paymentGateway: {
+      type: String,
+      default: "razorpay"
+    },
+
+    paymentStatus: {
+      type: String,
+      enum: [
+        "created",
+        "success",
+        "failed"
+      ],
+      default: "created"
     },
 
     status: {

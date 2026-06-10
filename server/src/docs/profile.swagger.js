@@ -38,7 +38,7 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -88,6 +88,14 @@
  *                   portfolio:
  *                     type: string
  *
+ *               profileImage:
+ *                 type: string
+ *                 format: binary
+ *
+ *               resume:
+ *                 type: string
+ *                 format: binary
+ *
  *     responses:
  *       200:
  *         description: Profile updated successfully
@@ -132,45 +140,4 @@
  *     responses:
  *       200:
  *         description: Profile image deleted successfully
- */
-
-/**
- * @swagger
- * /api/v1/profile/resume:
- *   put:
- *     summary: Upload or Update Resume
- *     tags: [Profile]
- *     security:
- *       - bearerAuth: []
- *
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required:
- *               - resume
- *             properties:
- *               resume:
- *                 type: string
- *                 format: binary
- *
- *     responses:
- *       200:
- *         description: Resume uploaded successfully
- */
-
-/**
- * @swagger
- * /api/v1/profile/resume:
- *   delete:
- *     summary: Delete Resume
- *     tags: [Profile]
- *     security:
- *       - bearerAuth: []
- *
- *     responses:
- *       200:
- *         description: Resume deleted successfully
  */

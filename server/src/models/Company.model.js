@@ -1,5 +1,50 @@
 import mongoose, { Schema } from "mongoose";
 
+const branchSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 150
+        },
+
+        address: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        city: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        state: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        country: {
+            type: String,
+            required: true,
+            trim: true,
+            default: "India"
+        },
+
+        isActive: {
+            type: Boolean,
+            default: true
+        }
+    },
+    {
+        _id: true,
+        timestamps: true
+    }
+);
+
 const companySchema = new Schema(
     {
         name: {
@@ -27,41 +72,8 @@ const companySchema = new Schema(
             type: String,
             trim: true,
             unique: true,
-            match: [/^https?:\/\/.+/, "Invalid website URL"],
-            default: ""
-        },
-
-        location: {
-            country: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            state: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            city: {
-                type: String,
-                trim: true,
-                default: ""
-            },
-
-            address: {
-                type: String,
-                trim: true,
-                maxlength: 200,
-                default: ""
-            },
-
-            pincode: {
-                type: String,
-                trim: true,
-                default: ""
-            }
+            sparse: true,
+            match: [/^https?:\/\/.+/, "Invalid website URL"]
         },
 
         socialLinks: {
@@ -70,15 +82,23 @@ const companySchema = new Schema(
                 trim: true,
                 default: "",
                 match: [/^https?:\/\/.+/, "Invalid LinkedIn URL"]
-            },
+            }
+        },
+
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: [true, "Owner ID is required"]
         },
 
         hrIds: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "HR"
+                ref: "User"
             }
         ],
+
+        branches: [branchSchema],
 
         tanId: {
             type: String,
@@ -102,15 +122,29 @@ const companySchema = new Schema(
             ]
         },
 
-        isVerified: {
+        isEmailVerified: {
+            type: Boolean,
+            default: false
+        },
+
+        isBusinessVerified: {
+            type: Boolean,
+            default: false
+        },
+
+        verificationOTP: {
             type: String,
-            enum: ["pending", "fullfield", "reject"],
-            default: "pending"
+            default: ""
+        },
+
+        verificationOTPExpires: {
+            type: Date,
+            default: null
         },
 
         isActive: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         isProfileCompleted: {
