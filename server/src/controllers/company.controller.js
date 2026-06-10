@@ -12,6 +12,9 @@ import { generateTempPassword } from "../utils/RandomPassword.js";
 import mongoose from "mongoose";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
+import { HR } from "../models/HR.model.js";
+import { Job } from "../models/Job.model.js";
 
 export const companyRegister = asyncHandler(async (req, res) => {
     // 1. Zod Validation
@@ -547,7 +550,7 @@ export const getCurrentSubscription = asyncHandler(async (req, res) => {
 
 
 export const createHR = asyncHandler(async (req, res) => {
-    const { name, personalEmail, category } = req.body;
+    const { name, personalEmail, category, designation, phone } = req.body;
 
     // Retrieve company from request (attached by checkActiveSubscription middleware)
     const company = req.company;
@@ -559,7 +562,6 @@ export const createHR = asyncHandler(async (req, res) => {
     }
 
     // 5. Auto-Generate unique login email: hr.<hr-name>@<company-name>.company
-    // Sanitization Rules: lowercase, remove spaces, remove special characters
     const sanitizedHRName = name.toLowerCase().replace(/[^a-z0-9]/g, "");
     const sanitizedCompanyName = company.name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
@@ -570,14 +572,15 @@ export const createHR = asyncHandler(async (req, res) => {
         counter++;
     }
 
-    // 6. Generate random secure temporary password: 8-digit number
+    // 6. Generate random secure temporary password
     const tempPassword = generateTempPassword();
 
-    // 7. Database Transaction for User creation and Company update
+    // 7. Database Transaction for User and HR creation
     const session = await mongoose.startSession();
     session.startTransaction();
 
     let hrUser;
+    let hrProfile;
     try {
         const [createdHR] = await User.create(
             [
@@ -587,7 +590,6 @@ export const createHR = asyncHandler(async (req, res) => {
                     personalEmail,
                     password: tempPassword,
                     role: "hr",
-                    category,
                     mustChangePassword: true
                 }
             ],
@@ -599,6 +601,27 @@ export const createHR = asyncHandler(async (req, res) => {
         }
 
         hrUser = createdHR;
+
+        const [createdHRProfile] = await HR.create(
+            [
+                {
+                    user: hrUser._id,
+                    company: company._id,
+                    category,
+                    personalEmail,
+                    designation: designation || "",
+                    phone: phone || "",
+                    isActive: true
+                }
+            ],
+            { session }
+        );
+
+        if (!createdHRProfile) {
+            throw new ApiError(500, "Something went wrong while creating the HR profile");
+        }
+
+        hrProfile = createdHRProfile;
 
         // Push HR User ID into company's hrIds
         company.hrIds.push(hrUser._id);
@@ -612,7 +635,7 @@ export const createHR = asyncHandler(async (req, res) => {
         session.endSession();
     }
 
-    // 8. Email Delivery: Send credentials to HR's personalEmail (not generated login email)
+    // 8. Email Delivery
     await sendHRCredentialsEmail({
         personalEmail,
         name,
@@ -622,20 +645,305 @@ export const createHR = asyncHandler(async (req, res) => {
         tempPassword
     });
 
-    // 9. Return Response (do NOT return tempPassword in payload)
+    return res.status(201).json(new ApiResponse(201, {
+        hr: {
+            _id: hrProfile._id,
+            user: {
+                _id: hrUser._id,
+                name: hrUser.name,
+                email: hrUser.email
+            },
+            category: hrProfile.category,
+            personalEmail: hrProfile.personalEmail,
+            designation: hrProfile.designation,
+            phone: hrProfile.phone,
+            isActive: hrProfile.isActive
+        }
+    }, "HR created successfully"));
+});
+
+export const getCompanyHRs = asyncHandler(async (req, res) => {
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hrs = await HR.find({ company: company._id }).populate("user", "name email phone mustChangePassword role");
+    return res.status(200).json(new ApiResponse(200, hrs, "HR profiles fetched successfully"));
+});
+
+export const getCompanyHRById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOne({ _id: id, company: company._id }).populate("user", "name email phone mustChangePassword role");
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    return res.status(200).json(new ApiResponse(200, hr, "HR profile fetched successfully"));
+});
+
+export const updateCompanyHR = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOne({ _id: id, company: company._id });
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    // Update allowed fields
+    const allowedUpdates = ["category", "designation", "phone", "personalEmail"];
+    for (const key of allowedUpdates) {
+        if (req.body[key] !== undefined) {
+            hr[key] = req.body[key];
+        }
+    }
+
+    await hr.save();
+    return res.status(200).json(new ApiResponse(200, hr, "HR profile updated successfully"));
+});
+
+export const activateHR = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOneAndUpdate(
+        { _id: id, company: company._id },
+        { isActive: true },
+        { new: true }
+    );
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    return res.status(200).json(new ApiResponse(200, hr, "HR profile activated successfully"));
+});
+
+export const deactivateHR = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOneAndUpdate(
+        { _id: id, company: company._id },
+        { isActive: false },
+        { new: true }
+    );
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    return res.status(200).json(new ApiResponse(200, hr, "HR profile deactivated successfully"));
+});
+
+export const resetHRPassword = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOne({ _id: id, company: company._id });
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    const user = await User.findById(hr.user);
+    if (!user) {
+        throw new ApiError(404, "Linked HR user account not found");
+    }
+
+    const tempPassword = generateTempPassword();
+    user.password = tempPassword;
+    user.mustChangePassword = true;
+    await user.save();
+
+    await sendHRCredentialsEmail({
+        personalEmail: hr.personalEmail,
+        name: user.name,
+        companyName: company.name,
+        category: hr.category,
+        loginEmail: user.email,
+        tempPassword
+    });
+
+    return res.status(200).json(new ApiResponse(200, null, "HR password reset successfully and credentials sent to personal email"));
+});
+
+export const deleteHR = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid HR profile ID format");
+    }
+
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const hr = await HR.findOne({ _id: id, company: company._id });
+    if (!hr) {
+        throw new ApiError(404, "HR profile not found in this company");
+    }
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        await User.findByIdAndDelete(hr.user).session(session);
+        await HR.findByIdAndDelete(hr._id).session(session);
+
+        company.hrIds = company.hrIds.filter(hrId => hrId.toString() !== hr.user.toString());
+        await company.save({ session });
+
+        await session.commitTransaction();
+    } catch (error) {
+        await session.abortTransaction();
+        throw error;
+    } finally {
+        session.endSession();
+    }
+
+    return res.status(200).json(new ApiResponse(200, null, "HR deleted successfully"));
+});
+
+export const updateCompanyProfile = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    // Find the company profile belonging to this user (ownerId is linked to user)
+    const company = await Company.findOne({ ownerId: userId });
+
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    // Update allowable fields
+    const allowedUpdates = ["description", "website", "socialLinks"];
+    for (const key of allowedUpdates) {
+        if (req.body[key] !== undefined) {
+            company[key] = req.body[key];
+        }
+    }
+
+    // Handle logo upload if a file was provided
+    if (req.file) {
+        if (req.file.size > 5 * 1024 * 1024) {
+            throw new ApiError(400, "Logo image size cannot exceed 5 MB");
+        }
+
+        // Upload new logo to Cloudinary
+        const uploadResult = await uploadOnCloudinary(req.file.buffer, "job_portal/company_logos", "image");
+
+        if (!uploadResult) {
+            throw new ApiError(500, "Failed to upload company logo to Cloudinary");
+        }
+
+        // Delete existing logo from Cloudinary if it was stored as a Cloudinary asset
+        if (company.logo && company.logo.includes("cloudinary.com")) {
+            try {
+                // Extract public_id from Cloudinary URL: e.g. http://res.cloudinary.com/demo/image/upload/v1570975253/job_portal/company_logos/xxx.jpg
+                const parts = company.logo.split("/");
+                const filenameWithExt = parts[parts.length - 1];
+                const publicId = `job_portal/company_logos/${filenameWithExt.split(".")[0]}`;
+                await deleteFromCloudinary(publicId, "image");
+            } catch (err) {
+                console.error("Error extracting and deleting logo from Cloudinary:", err);
+            }
+        }
+
+        company.logo = uploadResult.secure_url;
+    }
+
+    // Set profile completion flag if description and website are populated
+    if (company.description && company.website) {
+        company.isProfileCompleted = true;
+    }
+
+    await company.save();
+
     return res
-        .status(201)
-        .json({
-            success: true,
-            message: "HR created successfully and credentials sent to personal email.",
-            data: {
-                hr: {
-                    _id: hrUser._id,
-                    name: hrUser.name,
-                    category: hrUser.category,
-                    email: hrUser.email,
-                    personalEmail: hrUser.personalEmail
-                }
+        .status(200)
+        .json(new ApiResponse(200, company, "Company profile updated successfully"));
+});
+
+export const getCompanyProfile = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const company = await Company.findOne({ ownerId: userId }).populate("ownerId", "name email phone role");
+
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, company, "Company profile fetched successfully"));
+});
+
+export const getCompanyProfileById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid Company ID format");
+    }
+
+    const company = await Company.findById(id).populate("ownerId", "name email phone role");
+
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, company, "Company profile fetched successfully"));
+});
+
+export const getCompanyJobs = asyncHandler(async (req, res) => {
+    const company = await Company.findOne({ ownerId: req.user._id });
+    if (!company) {
+        throw new ApiError(404, "Company profile not found");
+    }
+
+    const jobs = await Job.find({ company: company._id, isDeleted: false })
+        .populate({
+            path: "createdBy",
+            populate: {
+                path: "user",
+                select: "name email phone"
             }
         });
+
+    return res.status(200).json(new ApiResponse(200, jobs, "Company job listings fetched successfully"));
 });

@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
  * Global Error Handler Middleware
  */
 export const errorHandler = (err, req, res, next) => {
+    console.error("Express Caught Error:", err);
     let error = err;
 
     if (!(error instanceof ApiError)) {

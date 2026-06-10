@@ -44,6 +44,11 @@ const profileSchema = new Schema(
             enum: EXPERIENCE_LEVELS,
             default: "fresher"
         },
+        skills: {
+            type: [String],
+            default: [],
+            set: (value) => [...new Set(value.map((skill) => skill.trim()))]
+        },
 
         socialLinks: {
             linkedin: { type: String, trim: true },

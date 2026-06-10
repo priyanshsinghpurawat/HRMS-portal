@@ -1,64 +1,119 @@
 import mongoose, { Schema } from "mongoose";
-import { EXPERIENCE_LEVELS } from "../constants/index.js";
 
 const jobSchema = new Schema(
     {
-        company: {
-            type: Schema.Types.ObjectId,
-            ref: "Company",
-            required: true,
-            index: true
-        },
         title: {
             type: String,
             trim: true,
             required: [true, "Job title is required"],
-            maxLength: 100
+            maxLength: [100, "Job title cannot exceed 100 characters"]
         },
         description: {
             type: String,
             required: [true, "Job description is required"]
         },
-        requirements: {
-            type: [String],
-            default: []
+        company: {
+            type: Schema.Types.ObjectId,
+            ref: "Company",
+            required: [true, "Company ID is required"],
+            index: true
         },
-        skills: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Skill"
-            }
-        ],
+        createdBy: {
+            type: Schema.Types.ObjectId,
+            ref: "HR",
+            required: [true, "Creator (HR) ID is required"],
+            index: true
+        },
+        department: {
+            type: String,
+            trim: true,
+            required: [true, "Department is required"]
+        },
+        employmentType: {
+            type: String,
+            enum: [
+                "full-time",
+                "part-time",
+                "internship",
+                "contract",
+                "remote"
+            ],
+            required: [true, "Employment type is required"]
+        },
         experienceLevel: {
             type: String,
-            enum: EXPERIENCE_LEVELS,
-            required: true
+            enum: [
+                "fresher",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            required: [true, "Experience level is required"]
+        },
+        salaryMin: {
+            type: Number,
+            required: [true, "Minimum salary is required"]
+        },
+        salaryMax: {
+            type: Number,
+            required: [true, "Maximum salary is required"]
         },
         location: {
             type: String,
             trim: true,
-            required: true
+            required: [true, "Location is required"]
         },
-        jobType: {
-            type: String,
-            enum: ["full-time", "part-time", "contract", "internship", "freelance"],
-            default: "full-time"
+        skills: {
+            type: [String],
+            default: []
         },
-        salaryRange: {
-            min: { type: Number },
-            max: { type: Number },
-            currency: { type: String, default: "INR" }
+        openings: {
+            type: Number,
+            default: 1
+        },
+        applicationCount: {
+            type: Number,
+            default: 0
         },
         status: {
             type: String,
-            enum: ["active", "closed", "draft"],
+            enum: ["draft", "active", "closed"],
             default: "active",
             index: true
         },
-        postedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true
+        isDeleted: {
+            type: Boolean,
+            default: false,
+            index: true
+        },
+        deletedAt: {
+            type: Date,
+            default: null
+        },
+        notificationProcessed: {
+            type: Boolean,
+            default: false
+        },
+        aiModeration: {
+            isChecked: {
+                type: Boolean,
+                default: false
+            },
+            isSafe: {
+                type: Boolean,
+                default: true
+            },
+            riskScore: {
+                type: Number,
+                default: 0
+            },
+            reasons: {
+                type: [String],
+                default: []
+            },
+            checkedAt: {
+                type: Date
+            }
         }
     },
     {

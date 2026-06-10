@@ -8,6 +8,7 @@ export const updateProfileSchema = z.object({
         gender: z.enum(GENDER_ENUM).optional(),
         languages: z.array(z.string()).optional(),
         experienceLevel: z.enum(EXPERIENCE_LEVELS).optional(),
+        skills: z.array(z.string()).optional(),
         location: z.object({
             country: z.string().trim().optional(),
             state: z.string().trim().optional(),
