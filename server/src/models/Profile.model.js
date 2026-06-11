@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { EXPERIENCE_LEVELS, GENDER_ENUM } from "../constants/index.js";
+import { Location } from "./Location.model.js";
 
 const profileSchema = new Schema(
     {
@@ -53,7 +54,7 @@ const profileSchema = new Schema(
         socialLinks: {
             linkedin: { type: String, trim: true },
             github: { type: String, trim: true },
-            profile: { type: String, trim: true }
+            portfolio: { type: String, trim: true }
         },
         isProfileCompleted: {
             type: Boolean,
@@ -76,7 +77,6 @@ profileSchema.pre("save", async function () {
         }
     }
     if (completed) {
-        const Location = mongoose.model("location");
         const location = await Location.findOne({ ownerId: this.user, ownerType: "User" });
         if (!location || !location.city) {
             completed = false;

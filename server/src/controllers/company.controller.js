@@ -62,6 +62,10 @@ export const companyRegister = asyncHandler(async (req, res) => {
     session.startTransaction();
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    let createdUserRecord;
+    let companyRecord;
+    let accessToken;
+    let refreshToken;
 
     try {
         // 4. Create User (representing the company account/owner)
@@ -103,48 +107,15 @@ export const companyRegister = asyncHandler(async (req, res) => {
         }
 
         // Generate Access and Refresh Tokens within the transaction session
-        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id, session);
+        const tokens = await generateAccessAndRefreshTokens(user._id, session);
+        accessToken = tokens.accessToken;
+        refreshToken = tokens.refreshToken;
 
         // Commit transaction
         await session.commitTransaction();
 
-        // Fetch created user without password/refreshToken
-        const createdUser = await User.findById(user._id).select("-password -refreshToken");
-
-        // Send OTP verification email
-        await sendCompanyVerificationOTPEmail({
-            to: email,
-            name,
-            otp
-        });
-
-        // Set secure HTTP-only cookies
-        const isProduction = process.env.NODE_ENV === "production";
-        const cookieOptions = {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            path: "/"
-        };
-
-        return res
-            .status(201)
-            .cookie("accessToken", accessToken, cookieOptions)
-            .cookie("refreshToken", refreshToken, cookieOptions)
-            .json(
-                new ApiResponse(
-                    201,
-                    {
-                        user: createdUser,
-                        company,
-                        accessToken,
-                        refreshToken
-                    },
-                    "Company registered successfully"
-                )
-            );
-
+        createdUserRecord = user;
+        companyRecord = company;
     } catch (error) {
         // Abort transaction and bubble error
         await session.abortTransaction();
@@ -153,6 +124,47 @@ export const companyRegister = asyncHandler(async (req, res) => {
         // End the session
         session.endSession();
     }
+
+    // Send OTP verification email (outside transaction)
+    try {
+        await sendCompanyVerificationOTPEmail({
+            to: email,
+            name,
+            otp
+        });
+    } catch (emailError) {
+        console.error("Failed to send company verification OTP email:", emailError);
+    }
+
+    // Fetch created user without password/refreshToken
+    const createdUser = await User.findById(createdUserRecord._id).select("-password -refreshToken");
+
+    // Set secure HTTP-only cookies
+    const isProduction = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/"
+    };
+
+    return res
+        .status(201)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json(
+            new ApiResponse(
+                201,
+                {
+                    user: createdUser,
+                    company: companyRecord,
+                    accessToken,
+                    refreshToken
+                },
+                "Company registered successfully"
+            )
+        );
 });
 
 export const companyLogin = asyncHandler(async (req, res) => {
@@ -422,6 +434,8 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
     // Database transaction to update payment and create subscription
     const session = await mongoose.startSession();
     session.startTransaction();
+    let subscription;
+    let expiresAt;
     try {
         // Update payment
         payment.razorpayPaymentId = razorpay_payment_id;
@@ -432,7 +446,7 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
         await payment.save({ session });
 
         const startDate = new Date();
-        const expiresAt = new Date(startDate.getTime() + planConfig.duration * 24 * 60 * 60 * 1000);
+        expiresAt = new Date(startDate.getTime() + planConfig.duration * 24 * 60 * 60 * 1000);
 
         // Expire any existing active subscriptions first
         await Subscription.updateMany(
@@ -442,7 +456,7 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
         );
 
         // Create subscription
-        const [subscription] = await Subscription.create([
+        const [createdSubscription] = await Subscription.create([
             {
                 companyId: company._id,
                 paymentId: payment._id,
@@ -466,9 +480,17 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
             }
         ], { session });
 
+        subscription = createdSubscription;
         await session.commitTransaction();
+    } catch (error) {
+        await session.abortTransaction();
+        throw error;
+    } finally {
+        session.endSession();
+    }
 
-        // Send Purchase Confirmation Email
+    // Send Purchase Confirmation Email (outside of transaction)
+    try {
         await sendSubscriptionConfirmationEmail({
             to: req.user.email,
             name: req.user.name,
@@ -478,20 +500,17 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
             paymentId: razorpay_payment_id,
             expiresAt
         });
-
-        return res.status(200).json(
-            new ApiResponse(
-                200,
-                subscription,
-                "Payment verified and subscription activated successfully"
-            )
-        );
-    } catch (error) {
-        await session.abortTransaction();
-        throw error;
-    } finally {
-        session.endSession();
+    } catch (emailError) {
+        console.error("Failed to send subscription confirmation email:", emailError);
     }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            subscription,
+            "Payment verified and subscription activated successfully"
+        )
+    );
 });
 
 export const getCurrentSubscription = asyncHandler(async (req, res) => {
