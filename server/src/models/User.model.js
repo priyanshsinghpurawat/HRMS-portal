@@ -32,7 +32,12 @@ const userSchema = new Schema(
 
         password: {
             type: String,
-            required: [true, "Password is required"],
+            required: [
+                function () {
+                    return this.authProvider === "local";
+                },
+                "Password is required"
+            ],
             minLength: [8, "Password must be at least 8 characters"],
             select: false
         },
@@ -97,6 +102,30 @@ const userSchema = new Schema(
         mustChangePassword: {
             type: Boolean,
             default: false
+        },
+
+        googleId: {
+            type: String,
+            unique: true,
+            sparse: true,
+            index: true
+        },
+
+        authProvider: {
+            type: String,
+            enum: ["local", "google"],
+            default: "local",
+            index: true
+        },
+
+        avatar: {
+            type: String,
+            default: ""
+        },
+
+        isEmailVerified: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -106,7 +135,7 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function () {
 
-    if (!this.isModified("password")) return;
+    if (!this.password || !this.isModified("password")) return;
 
     this.password = await bcrypt.hash(this.password, 10);
 

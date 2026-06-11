@@ -113,3 +113,57 @@
  *       404:
  *         description: User not found
  */
+
+/**
+ * @swagger
+ * /api/v1/auth/google:
+ *   post:
+ *     summary: Authenticate user via Google OAuth 2.0
+ *     description: Sign in or sign up using a Google ID token. Automatically registers new candidates with default roles and connects existing manual accounts.
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - token
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 description: The Google ID token received after user authentication on client-side.
+ *                 example: google_id_token_xyz
+ *     responses:
+ *       200:
+ *         description: Google login successful. Access and refresh tokens returned and cookies set.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Google login successful
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user:
+ *                       $ref: '#/components/schemas/User'
+ *                     accessToken:
+ *                       type: string
+ *                     refreshToken:
+ *                       type: string
+ *       400:
+ *         description: Invalid Google ID token or verification failure.
+ *       403:
+ *         description: HR account is inactive.
+ *       500:
+ *         description: Internal Server Error.
+ */

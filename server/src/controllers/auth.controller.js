@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
 import { Profile } from "../models/Profile.model.js";
 import { HR } from "../models/HR.model.js";
+import { verifyGoogleToken } from "../services/googleAuth.service.js";
 
 export const generateAccessAndRefreshTokens = async (userId, session = null) => {
     try {
@@ -211,4 +212,86 @@ export const changePassword = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
-export { registerUser, loginUser, getCurrentUser, logoutUser };
+const googleLoginUser = asyncHandler(async (req, res) => {
+    const { token } = req.body;
+
+    const googlePayload = await verifyGoogleToken(token);
+
+    let user = await User.findOne({ email: googlePayload.email });
+
+    if (!user) {
+        // Create new user (Sign Up)
+        user = await User.create({
+            name: googlePayload.name,
+            email: googlePayload.email,
+            googleId: googlePayload.googleId,
+            authProvider: "google",
+            avatar: googlePayload.picture,
+            isEmailVerified: true,
+            role: "user",
+            accountStatus: "active"
+        });
+
+        // Initialize candidate profile
+        await Profile.create({ user: user._id });
+    } else {
+        // Link Google ID or update avatar (Sign In / Merge)
+        let isModified = false;
+        if (!user.googleId) {
+            user.googleId = googlePayload.googleId;
+            isModified = true;
+        }
+        if (user.avatar !== googlePayload.picture) {
+            user.avatar = googlePayload.picture;
+            isModified = true;
+        }
+        if (!user.isEmailVerified) {
+            user.isEmailVerified = true;
+            isModified = true;
+        }
+
+        if (isModified) {
+            await user.save({ validateBeforeSave: false });
+        }
+    }
+
+    // Check if HR account is active
+    if (user.role === "hr") {
+        const hrProfile = await HR.findOne({ user: user._id });
+        if (hrProfile && !hrProfile.isActive) {
+            throw new ApiError(403, "Your HR account is inactive. Please contact your company administrator.");
+        }
+    }
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const cookieOptions = {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/"
+    };
+
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    user: loggedInUser,
+                    accessToken,
+                    refreshToken
+                },
+                "Google login successful"
+            )
+        );
+});
+
+export { registerUser, loginUser, getCurrentUser, logoutUser, googleLoginUser };

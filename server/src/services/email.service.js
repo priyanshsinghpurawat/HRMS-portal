@@ -734,6 +734,8 @@ export const sendSubscriptionConfirmationEmail = async ({
         year: "numeric"
     });
 
+    const body = `Hello ${name},\n\nYour subscription for ${companyName} has been successfully activated.\n\nPlan: ${planName}\nAmount: ₹${amount}\nPayment ID: ${paymentId}\nExpiry Date: ${expiryDateStr}`;
+
     const html = getSubscriptionConfirmationEmailTemplate({
         name,
         companyName,
