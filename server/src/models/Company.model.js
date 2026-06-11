@@ -82,6 +82,18 @@ const companySchema = new Schema(
                 trim: true,
                 default: "",
                 match: [/^https?:\/\/.+/, "Invalid LinkedIn URL"]
+            },
+            twitter: {
+                type: String,
+                trim: true,
+                default: "",
+                match: [/^https?:\/\/.+/, "Invalid Twitter URL"]
+            },
+            blog: {
+                type: String,
+                trim: true,
+                default: "",
+                match: [/^https?:\/\/.+/, "Invalid Blog URL"]
             }
         },
 

@@ -1,6 +1,13 @@
 import { Router } from "express";
-import { updateProfile, getProfile } from "../controllers/profile.controller.js";
-import { uploadProfileFields } from "../middlewares/multer.middleware.js";
+import { 
+    updateProfile, 
+    getProfile, 
+    updateProfileImage, 
+    deleteProfileImage, 
+    updateResume, 
+    deleteResume 
+} from "../controllers/profile.controller.js";
+import { uploadProfileFields, uploadImage, uploadResume } from "../middlewares/multer.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { updateProfileSchema } from "../validations/profile.validation.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -27,7 +34,7 @@ const parseAndCleanProfileBody = (req, res, next) => {
     };
 
     // Parse JSON fields if they are sent as strings
-    const jsonFields = ["location", "socialLinks"];
+    const jsonFields = ["location"];
     for (const field of jsonFields) {
         if (req.body[field] && typeof req.body[field] === "string") {
             try {
@@ -36,6 +43,54 @@ const parseAndCleanProfileBody = (req, res, next) => {
                 // Keep as string if parsing fails, cleanEmptyFields will handle it
             }
         }
+    }
+
+    // Parse socialLinks from string, array, or object format
+    if (req.body.socialLinks) {
+        let rawLinks = req.body.socialLinks;
+        let linksObj = {};
+
+        if (typeof rawLinks === "string") {
+            const trimmed = rawLinks.trim();
+            if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+                try {
+                    rawLinks = JSON.parse(trimmed);
+                } catch (err) {
+                    rawLinks = trimmed.replace(/[\[\]"']/g, "").split(",").map(s => s.trim()).filter(Boolean);
+                }
+            } else if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+                try {
+                    linksObj = JSON.parse(trimmed);
+                    rawLinks = null; // already an object
+                } catch (err) {
+                    // fall back to treating it as array/string if JSON.parse fails
+                    rawLinks = trimmed.split(",").map(s => s.trim()).filter(Boolean);
+                }
+            } else {
+                rawLinks = trimmed.split(",").map(s => s.trim()).filter(Boolean);
+            }
+        }
+
+        if (Array.isArray(rawLinks)) {
+            rawLinks.forEach(url => {
+                const lowerUrl = url.toLowerCase();
+                if (lowerUrl.includes("linkedin.com")) {
+                    linksObj.linkedin = url;
+                } else if (lowerUrl.includes("github.com")) {
+                    linksObj.github = url;
+                } else if (lowerUrl.includes("twitter.com") || lowerUrl.includes("x.com")) {
+                    linksObj.twitter = url;
+                } else if (lowerUrl.includes("blog") || lowerUrl.includes("medium.com") || lowerUrl.includes("dev.to") || lowerUrl.includes("substack.com")) {
+                    linksObj.blog = url;
+                } else {
+                    linksObj.portfolio = url;
+                }
+            });
+        } else if (rawLinks && typeof rawLinks === "object") {
+            linksObj = rawLinks;
+        }
+
+        req.body.socialLinks = linksObj;
     }
 
     // Parse array fields (languages & skills) safely
@@ -78,5 +133,13 @@ router.route("/")
         validate(updateProfileSchema),
         updateProfile
     );
+
+router.route("/image")
+    .put(uploadImage.single("profileImage"), updateProfileImage)
+    .delete(deleteProfileImage);
+
+router.route("/resume")
+    .put(uploadResume.single("resume"), updateResume)
+    .delete(deleteResume);
 
 export default router;

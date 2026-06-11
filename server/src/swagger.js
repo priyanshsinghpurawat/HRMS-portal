@@ -189,6 +189,12 @@ const options = {
                 },
                 portfolio: {
                   type: "string"
+                },
+                twitter: {
+                  type: "string"
+                },
+                blog: {
+                  type: "string"
                 }
               }
             },
