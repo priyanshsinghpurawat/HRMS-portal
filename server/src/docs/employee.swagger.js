@@ -179,4 +179,93 @@
  *         description: Profile updated successfully
  *       403:
  *         description: Access Denied
+ * 
+ * /api/v1/employees:
+ *   post:
+ *     summary: Create a new employee and send credentials (HR Only)
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - personalEmail
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Jane Doe"
+ *               personalEmail:
+ *                 type: string
+ *                 example: "jane.doe@gmail.com"
+ *               department:
+ *                 type: string
+ *                 example: "Engineering"
+ *               designation:
+ *                 type: string
+ *                 example: "Software Engineer"
+ *               phone:
+ *                 type: string
+ *                 example: "+919876543210"
+ *               reportingManager:
+ *                 type: string
+ *                 description: Employee ID of the manager
+ *                 example: "60d5ec49c6158e00155b4125"
+ *               joiningDate:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-11"
+ *     responses:
+ *       201:
+ *         description: Employee created successfully
+ *       400:
+ *         description: Invalid inputs or user already exists
+ *       403:
+ *         description: Access Denied
+ * 
+ * /api/v1/employees/{id}/activate:
+ *   patch:
+ *     summary: Activate employee status (HR Only)
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Employee ID
+ *     responses:
+ *       200:
+ *         description: Employee activated successfully
+ *       403:
+ *         description: Access Denied
+ *       404:
+ *         description: Employee record not found
+ * 
+ * /api/v1/employees/{id}:
+ *   delete:
+ *     summary: Delete employee record and account (HR Only)
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Employee ID
+ *     responses:
+ *       200:
+ *         description: Employee record deleted successfully
+ *       403:
+ *         description: Access Denied
+ *       404:
+ *         description: Employee record not found
  */
