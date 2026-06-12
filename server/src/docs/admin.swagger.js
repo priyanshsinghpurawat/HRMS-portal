@@ -9,7 +9,7 @@
  * @swagger
  * /api/v1/admin/users:
  *   get:
- *     summary: Get all users
+ *     summary: Get all users (role = user)
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
@@ -20,22 +20,22 @@
 
 /**
  * @swagger
- * /api/v1/admin/users/count:
+ * /api/v1/admin/users/active:
  *   get:
- *     summary: Get total users count
+ *     summary: Get active users (role = user and not blocked)
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: User count fetched successfully
+ *         description: Active users fetched successfully
  */
 
 /**
  * @swagger
  * /api/v1/admin/users/{id}:
  *   get:
- *     summary: Get single user
+ *     summary: Get single user (role = user)
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
@@ -54,28 +54,22 @@
 
 /**
  * @swagger
- * /api/v1/admin/users/block/{id}:
- *   patch:
- *     summary: Block user
+ * /api/v1/admin/hrs:
+ *   get:
+ *     summary: Get all HRs (role = hr)
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
- *         description: User blocked successfully
+ *         description: HRs fetched successfully
  */
 
 /**
  * @swagger
- * /api/v1/admin/users/unblock/{id}:
- *   patch:
- *     summary: Unblock user
+ * /api/v1/admin/hrs/{id}:
+ *   get:
+ *     summary: Get single HR (role = hr)
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
@@ -87,26 +81,9 @@
  *           type: string
  *     responses:
  *       200:
- *         description: User unblocked successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/users/{id}:
- *   delete:
- *     summary: Delete user
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: User deleted successfully
+ *         description: HR fetched successfully
+ *       404:
+ *         description: HR user not found
  */
 
 /**
@@ -120,6 +97,32 @@
  *     responses:
  *       200:
  *         description: Companies fetched successfully
+ */
+
+/**
+ * @swagger
+ * /api/v1/admin/companies/active:
+ *   get:
+ *     summary: Get active companies (not blocked)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Active companies fetched successfully
+ */
+
+/**
+ * @swagger
+ * /api/v1/admin/companies/blocked:
+ *   get:
+ *     summary: Get blocked companies (isBlocked = true)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Blocked companies fetched successfully
  */
 
 /**
@@ -139,13 +142,52 @@
  *     responses:
  *       200:
  *         description: Company fetched successfully
+ *       404:
+ *         description: Company not found
  */
 
 /**
  * @swagger
- * /api/v1/admin/companies/approve/{id}:
+ * /api/v1/admin/companies/block/{id}:
  *   patch:
- *     summary: Approve company
+ *     summary: Block a company
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - reason
+ *             properties:
+ *               reason:
+ *                 type: string
+ *                 minLength: 3
+ *                 maxLength: 500
+ *                 example: "Fraudulent Job Postings or Spam Activities"
+ *     responses:
+ *       200:
+ *         description: Company blocked successfully
+ *       400:
+ *         description: Invalid input or missing reason
+ *       404:
+ *         description: Company not found
+ */
+
+/**
+ * @swagger
+ * /api/v1/admin/companies/unblock/{id}:
+ *   patch:
+ *     summary: Unblock a company
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
@@ -157,33 +199,16 @@
  *           type: string
  *     responses:
  *       200:
- *         description: Company approved successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/companies/reject/{id}:
- *   patch:
- *     summary: Reject company
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Company rejected successfully
+ *         description: Company unblocked successfully
+ *       404:
+ *         description: Company not found
  */
 
 /**
  * @swagger
  * /api/v1/admin/companies/{id}:
  *   delete:
- *     summary: Delete company
+ *     summary: Delete a company
  *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
@@ -196,119 +221,6 @@
  *     responses:
  *       200:
  *         description: Company deleted successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/dashboard/pending-companies:
- *   get:
- *     summary: Get pending companies count
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Pending companies fetched successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/companies/{companyId}/employees/count:
- *   get:
- *     summary: Get company employee count
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: companyId
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Employee count fetched successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/jobs:
- *   get:
- *     summary: Get all jobs
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Jobs fetched successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/jobs/{id}:
- *   get:
- *     summary: Get single job
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Job fetched successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/jobs/block/{id}:
- *   patch:
- *     summary: Block fraud job
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Job blocked successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/jobs/unblock/{id}:
- *   patch:
- *     summary: Unblock job
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Job unblocked successfully
- */
-
-/**
- * @swagger
- * /api/v1/admin/dashboard/stats:
- *   get:
- *     summary: Get dashboard statistics
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Dashboard stats fetched successfully
+ *       404:
+ *         description: Company not found
  */

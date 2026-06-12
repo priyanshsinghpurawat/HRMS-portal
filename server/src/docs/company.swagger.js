@@ -59,6 +59,12 @@
  *             linkedin:
  *               type: string
  *               example: "https://linkedin.com/company/tcs"
+ *             twitter:
+ *               type: string
+ *               example: "https://twitter.com/tcs"
+ *             blog:
+ *               type: string
+ *               example: "https://tcs.com/blog"
  *         tanId:
  *           type: string
  *           example: "TCSG12345Z"

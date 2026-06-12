@@ -105,7 +105,47 @@ router.route('/hr/:id/reset-password')
 // Profile Helper Middleware to parse nested JSON
 const parseBodyJson = (fields) => (req, res, next) => {
     for (const field of fields) {
-        if (req.body[field] && typeof req.body[field] === "string") {
+        if (field === "socialLinks" && req.body.socialLinks) {
+            let rawLinks = req.body.socialLinks;
+            let linksObj = {};
+
+            if (typeof rawLinks === "string") {
+                const trimmed = rawLinks.trim();
+                if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+                    try {
+                        rawLinks = JSON.parse(trimmed);
+                    } catch (err) {
+                        rawLinks = trimmed.replace(/[\[\]"']/g, "").split(",").map(s => s.trim()).filter(Boolean);
+                    }
+                } else if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+                    try {
+                        linksObj = JSON.parse(trimmed);
+                        rawLinks = null; // already an object
+                    } catch (err) {
+                        rawLinks = trimmed.split(",").map(s => s.trim()).filter(Boolean);
+                    }
+                } else {
+                    rawLinks = trimmed.split(",").map(s => s.trim()).filter(Boolean);
+                }
+            }
+
+            if (Array.isArray(rawLinks)) {
+                rawLinks.forEach(url => {
+                    const lowerUrl = url.toLowerCase();
+                    if (lowerUrl.includes("linkedin.com")) {
+                        linksObj.linkedin = url;
+                    } else if (lowerUrl.includes("twitter.com") || lowerUrl.includes("x.com")) {
+                        linksObj.twitter = url;
+                    } else if (lowerUrl.includes("blog") || lowerUrl.includes("medium.com") || lowerUrl.includes("dev.to") || lowerUrl.includes("substack.com")) {
+                        linksObj.blog = url;
+                    }
+                });
+            } else if (rawLinks && typeof rawLinks === "object") {
+                linksObj = rawLinks;
+            }
+
+            req.body.socialLinks = linksObj;
+        } else if (req.body[field] && typeof req.body[field] === "string") {
             try {
                 req.body[field] = JSON.parse(req.body[field]);
             } catch (err) {

@@ -1,5 +1,50 @@
 import mongoose, { Schema } from "mongoose";
 
+const branchSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 150
+        },
+
+        address: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        city: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        state: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        country: {
+            type: String,
+            required: true,
+            trim: true,
+            default: "India"
+        },
+
+        isActive: {
+            type: Boolean,
+            default: true
+        }
+    },
+    {
+        _id: true,
+        timestamps: true
+    }
+);
+
 const companySchema = new Schema(
     {
         name: {
@@ -30,7 +75,7 @@ const companySchema = new Schema(
             sparse: true,
             match: [/^https?:\/\/.+/, "Invalid website URL"]
         },
-        
+
         socialLinks: {
             linkedin: {
                 type: String,
@@ -38,6 +83,18 @@ const companySchema = new Schema(
                 default: "",
                 match: [/^https?:\/\/.+/, "Invalid LinkedIn URL"]
             },
+            twitter: {
+                type: String,
+                trim: true,
+                default: "",
+                match: [/^https?:\/\/.+/, "Invalid Twitter URL"]
+            },
+            blog: {
+                type: String,
+                trim: true,
+                default: "",
+                match: [/^https?:\/\/.+/, "Invalid Blog URL"]
+            }
         },
 
         ownerId: {
@@ -52,6 +109,8 @@ const companySchema = new Schema(
                 ref: "User"
             }
         ],
+
+        branches: [branchSchema],
 
         tanId: {
             type: String,
@@ -97,13 +156,24 @@ const companySchema = new Schema(
 
         isActive: {
             type: Boolean,
-            default:true
+            default: true
         },
 
         isProfileCompleted: {
             type: Boolean,
             default: false
         },
+
+        isBlocked: {
+            type: Boolean,
+            default: false
+        },
+
+        blockReason: {
+            type: String,
+            trim: true,
+            default: ""
+        }
     },
     {
         timestamps: true

@@ -17,11 +17,13 @@ export const updateProfileSchema = z.object({
             pincode: z.string().trim().regex(/^[1-9][0-9]{5}$/, "Enter a valid 6-digit pincode").optional()
         }).optional(),
         socialLinks: z.object({
-            linkedin: z.string().url().optional(),
-            github: z.string().url().optional(),
-            portfolio: z.string().url().optional()
+            linkedin: z.string().url().optional().or(z.literal("")),
+            github: z.string().url().optional().or(z.literal("")),
+            portfolio: z.string().url().optional().or(z.literal("")),
+            twitter: z.string().url().optional().or(z.literal("")),
+            blog: z.string().url().optional().or(z.literal(""))
         }).refine(
-            (data) => data.linkedin || data.github || data.portfolio,
+            (data) => data.linkedin || data.github || data.portfolio || data.twitter || data.blog,
             {
                 message: "At least one social link is required",
             }

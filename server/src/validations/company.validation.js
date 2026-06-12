@@ -140,6 +140,18 @@ export const updateCompanyProfileSchema = z.object({
                 .trim()
                 .regex(/^https?:\/\/.+/, "Invalid LinkedIn URL")
                 .optional()
+                .or(z.literal("")),
+            twitter: z
+                .string()
+                .trim()
+                .regex(/^https?:\/\/.+/, "Invalid Twitter URL")
+                .optional()
+                .or(z.literal("")),
+            blog: z
+                .string()
+                .trim()
+                .regex(/^https?:\/\/.+/, "Invalid Blog URL")
+                .optional()
                 .or(z.literal(""))
         }).optional()
     })

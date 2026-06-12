@@ -87,6 +87,10 @@
  *                     type: string
  *                   portfolio:
  *                     type: string
+ *                   twitter:
+ *                     type: string
+ *                   blog:
+ *                     type: string
  *
  *               profileImage:
  *                 type: string

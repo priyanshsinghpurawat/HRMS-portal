@@ -501,6 +501,244 @@ export const sendHRCredentialsEmail = async ({
 };
 
 /**
+ * Generate premium HTML Employee Credentials email template
+ */
+export const getEmployeeCredentialsEmailTemplate = ({
+    name,
+    companyName,
+    department,
+    designation,
+    loginEmail,
+    tempPassword
+}) => {
+    return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Employee Account Has Been Created</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F9F9F9; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F9F9F9; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <!-- Main Card Container -->
+        <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          
+          <!-- Logo & Header Section -->
+          <tr>
+            <td align="center" style="padding: 40px 40px 20px 40px;">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" style="padding-bottom: 8px;">
+                    <!-- Magnifying Glass Icon / Circle J Logo -->
+                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
+                      <tr>
+                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
+                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
+                            <!-- Orange circle (lens) -->
+                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">
+                              J
+                            </div>
+                            <!-- Handle -->
+                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- Jobdekho+ Text -->
+                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
+                    Jobdekho<span style="color: #FF5500;">+</span>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- HRMS Services Subtitle -->
+                  <td align="center" style="font-size: 12px; font-weight: bold; color: #FF5500; text-transform: uppercase; letter-spacing: 2px; padding-top: 2px; padding-bottom: 8px;">
+                    — HRMS Services —
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 40px;">
+              <div style="height: 1px; background-color: #EAEAEA; width: 100%;"></div>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td align="center" style="padding: 30px 40px;">
+              <h1 style="font-size: 22px; font-weight: 700; color: #1A1A1A; margin: 0 0 16px 0; font-family: Arial, sans-serif;">
+                Your Employee Account Has Been Created
+              </h1>
+              <p style="font-size: 15px; color: #555555; line-height: 24px; margin: 0 0 24px 0; font-family: Arial, sans-serif; text-align: left;">
+                Hello ${name},<br><br>
+                Welcome aboard! Your employee account for <strong>${companyName}</strong> has been created successfully. You can now log in using the credentials below:
+              </p>
+
+              <!-- Credentials Details Grid -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="12" style="background-color: #F9F9F9; border: 1px solid #EAEAEA; border-radius: 8px; margin-bottom: 24px; font-family: Arial, sans-serif; font-size: 14px; text-align: left;">
+                <tr>
+                  <td style="color: #666666; font-weight: bold; width: 40%; border-bottom: 1px solid #EAEAEA;">Company</td>
+                  <td style="color: #1A1A1A; border-bottom: 1px solid #EAEAEA;">${companyName}</td>
+                </tr>
+                <tr>
+                  <td style="color: #666666; font-weight: bold; border-bottom: 1px solid #EAEAEA;">Department</td>
+                  <td style="color: #1A1A1A; border-bottom: 1px solid #EAEAEA;">${department}</td>
+                </tr>
+                <tr>
+                  <td style="color: #666666; font-weight: bold; border-bottom: 1px solid #EAEAEA;">Designation</td>
+                  <td style="color: #1A1A1A; border-bottom: 1px solid #EAEAEA;">${designation}</td>
+                </tr>
+                <tr>
+                  <td style="color: #666666; font-weight: bold; border-bottom: 1px solid #EAEAEA;">Login Email</td>
+                  <td style="color: #FF5500; font-weight: bold; font-family: monospace; border-bottom: 1px solid #EAEAEA;">${loginEmail}</td>
+                </tr>
+                <tr>
+                  <td style="color: #666666; font-weight: bold; border-bottom: 1px solid #EAEAEA;">Temporary Password</td>
+                  <td style="color: #1A1A1A; font-weight: bold; font-family: monospace; border-bottom: 1px solid #EAEAEA;">${tempPassword}</td>
+                </tr>
+                <tr>
+                  <td style="color: #666666; font-weight: bold;">Login URL</td>
+                  <td style="color: #1A1A1A;"><a href="https://yourdomain.com/employee/login" style="color: #FF5500; text-decoration: underline; font-weight: bold;">Go to Login Portal</a></td>
+                </tr>
+              </table>
+
+              <!-- Action Call Out -->
+              <div style="background-color: #FFF2E8; border-left: 4px solid #FF5500; padding: 15px; border-radius: 4px; margin-bottom: 24px; text-align: left;">
+                <p style="font-size: 14px; color: #E65100; font-weight: bold; margin: 0 0 4px 0; font-family: Arial, sans-serif;">
+                  🔒 Security Notice
+                </p>
+                <p style="font-size: 13.5px; color: #555555; line-height: 18px; margin: 0; font-family: Arial, sans-serif;">
+                  For security reasons, you will be required to change your password immediately after your first login.
+                </p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 40px;">
+              <div style="height: 1px; background-color: #F0F0F0; width: 100%;"></div>
+            </td>
+          </tr>
+
+          <!-- Security Tip Footer Segment -->
+          <tr>
+            <td style="padding: 24px 40px;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="38" valign="top" style="padding-top: 2px;">
+                    <div style="background-color: #FFF2E8; width: 26px; height: 26px; border-radius: 50%; text-align: center; line-height: 26px; font-size: 14px;">
+                      🛡️
+                    </div>
+                  </td>
+                  <td valign="top" style="font-size: 13px; color: #666666; line-height: 18px; font-family: Arial, sans-serif;">
+                    <strong style="color: #FF5500; font-weight: bold;">For your security:</strong><br>
+                    Jobdekho + HRMS Services will never ask for your password or any personal information.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Social Media Icons Row -->
+          <tr>
+            <td align="center" style="padding: 10px 40px 30px 40px;">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="padding: 0 6px;">
+                    <a href="https://www.jobdekho.com" style="text-decoration: none;">
+                      <div style="background-color: #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #FFFFFF; font-size: 14px; font-weight: bold;">🌐</div>
+                    </a>
+                  </td>
+                  <td style="padding: 0 6px;">
+                    <a href="https://linkedin.com" style="text-decoration: none;">
+                      <div style="background-color: #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #FFFFFF; font-size: 11px; font-weight: bold; font-family: sans-serif;">in</div>
+                    </a>
+                  </td>
+                  <td style="padding: 0 6px;">
+                    <a href="https://facebook.com" style="text-decoration: none;">
+                      <div style="background-color: #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #FFFFFF; font-size: 12px; font-weight: bold; font-family: sans-serif;">f</div>
+                    </a>
+                  </td>
+                  <td style="padding: 0 6px;">
+                    <a href="https://twitter.com" style="text-decoration: none;">
+                      <div style="background-color: #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #FFFFFF; font-size: 11px; font-weight: bold; font-family: sans-serif;">X</div>
+                    </a>
+                  </td>
+                  <td style="padding: 0 6px;">
+                    <a href="https://instagram.com" style="text-decoration: none;">
+                      <div style="background-color: #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #FFFFFF; font-size: 13px; font-weight: bold; font-family: sans-serif;">📷</div>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Full Width Orange Contact Footer Bar -->
+          <tr>
+            <td style="background-color: #FF5500; padding: 18px 24px;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" style="font-size: 12px; color: #FFFFFF; font-family: Arial, sans-serif; width: 33%;">
+                    ✉️ info@jobdekho.com
+                  </td>
+                  <td align="center" style="font-size: 12px; color: #FFFFFF; font-family: Arial, sans-serif; border-left: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); padding: 0 8px; width: 34%;">
+                    📞 +91 00000 00000
+                  </td>
+                  <td align="right" style="font-size: 12px; color: #FFFFFF; font-family: Arial, sans-serif; width: 33%;">
+                    🌐 www.jobdekho.com
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+
+        <!-- Outside copyright notice -->
+        <p style="font-size: 11px; color: #999999; text-align: center; margin: 20px 0 0 0; font-family: Arial, sans-serif;">
+          © 2026 Jobdekho + HRMS Services. All rights reserved.
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+};
+
+export const sendEmployeeCredentialsEmail = async ({
+    personalEmail,
+    name,
+    companyName,
+    department,
+    designation,
+    loginEmail,
+    tempPassword
+}) => {
+    const subject = "Your Employee Account Has Been Created";
+    const body = `Hello ${name},\n\nYour employee account has been created successfully.\n\nCompany: ${companyName}\nDepartment: ${department}\nDesignation: ${designation}\nLogin Email: ${loginEmail}\nTemporary Password: ${tempPassword}\n\nLogin URL: https://yourdomain.com/employee/login`;
+    const html = getEmployeeCredentialsEmailTemplate({
+        name,
+        companyName,
+        department,
+        designation,
+        loginEmail,
+        tempPassword
+    });
+
+    return await sendEmail({ to: personalEmail, subject, body, html });
+};
+
+/**
  * Generate the premium HTML subscription purchase confirmation template
  */
 export const getSubscriptionConfirmationEmailTemplate = ({
