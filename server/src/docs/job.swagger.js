@@ -375,3 +375,91 @@
  *       404:
  *         description: Job listing not found
  */
+
+/**
+ * @swagger
+ * /api/v1/jobs/{id}/close:
+ *   patch:
+ *     summary: Close a job listing (HR Only)
+ *     description: Set the job status to 'closed'. Only HRs associated with the company that posted the job can close it.
+ *     tags: [Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Job ID
+ *     responses:
+ *       200:
+ *         description: Job listing closed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Job listing closed successfully
+ *                 data:
+ *                   $ref: '#/components/schemas/Job'
+ *       400:
+ *         description: Invalid Job ID format
+ *       403:
+ *         description: Access Denied - HR belongs to another company or not authorized
+ *       404:
+ *         description: Job listing not found
+ *       500:
+ *         description: Internal Server Error
+ *
+ * /api/v1/jobs/{id}/reopen:
+ *   patch:
+ *     summary: Reopen a job listing (HR Only)
+ *     description: Set the job status to 'active'. Only HRs associated with the company that posted the job can reopen it.
+ *     tags: [Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Job ID
+ *     responses:
+ *       200:
+ *         description: Job listing reopened successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Job listing reopened successfully
+ *                 data:
+ *                   $ref: '#/components/schemas/Job'
+ *       400:
+ *         description: Invalid Job ID format
+ *       403:
+ *         description: Access Denied - HR belongs to another company or not authorized
+ *       404:
+ *         description: Job listing not found
+ *       500:
+ *         description: Internal Server Error
+ */
+

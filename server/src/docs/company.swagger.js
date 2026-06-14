@@ -459,3 +459,89 @@
  *       200:
  *         description: HR account deleted successfully
  */
+
+/**
+ * @swagger
+ * /api/v1/company/send-verification:
+ *   post:
+ *     summary: Resend OTP verification email to company email
+ *     description: Triggers sending a new 6-digit verification OTP to the company owner's email address.
+ *     tags: [Company]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Company owner email address
+ *                 example: tcs@company.com
+ *     responses:
+ *       200:
+ *         description: Verification email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Verification email sent successfully
+ *                 data:
+ *                   type: object
+ *                   example: {}
+ *       400:
+ *         description: Email is already verified or email field is missing
+ *       404:
+ *         description: User or company profile not found
+ *       500:
+ *         description: Internal Server Error
+ *
+ * /api/v1/company/jobs:
+ *   get:
+ *     summary: Retrieve company's job listings (Company Owner Only)
+ *     description: Returns a list of all active (not deleted) job postings that belong to the authenticated company owner's company.
+ *     tags: [Company]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Company job listings fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Company job listings fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Job'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Access Denied
+ *       404:
+ *         description: Company profile not found
+ *       500:
+ *         description: Internal Server Error
+ */
+

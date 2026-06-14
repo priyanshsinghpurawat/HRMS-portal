@@ -145,3 +145,93 @@
  *       200:
  *         description: Profile image deleted successfully
  */
+
+/**
+ * @swagger
+ * /api/v1/profile/resume:
+ *   put:
+ *     summary: Upload or Update Resume
+ *     tags: [Profile]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - resume
+ *             properties:
+ *               resume:
+ *                 type: string
+ *                 format: binary
+ *                 description: Resume document (PDF, DOCX, etc., max 10MB)
+ *     responses:
+ *       200:
+ *         description: Resume updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Resume updated successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     resume:
+ *                       type: object
+ *                       properties:
+ *                         url:
+ *                           type: string
+ *                           example: "https://cloudinary.com/resume.pdf"
+ *                         public_id:
+ *                           type: string
+ *                           example: "job_portal/resumes/xyz"
+ *       400:
+ *         description: No file uploaded or file size exceeds limit
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Failed to upload resume
+ *
+ *   delete:
+ *     summary: Delete Resume
+ *     tags: [Profile]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Resume deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Resume deleted successfully
+ *                 data:
+ *                   type: object
+ *                   example: {}
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Resume not found
+ *       500:
+ *         description: Internal Server Error
+ */

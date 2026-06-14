@@ -167,3 +167,60 @@
  *       500:
  *         description: Internal Server Error.
  */
+
+/**
+ * @swagger
+ * /api/v1/auth/change-password:
+ *   post:
+ *     summary: Change password for logged-in user
+ *     description: Allows authenticated users to change their account password.
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - oldPassword
+ *               - newPassword
+ *             properties:
+ *               oldPassword:
+ *                 type: string
+ *                 description: The current password of the user.
+ *                 example: OldPassword@123
+ *               newPassword:
+ *                 type: string
+ *                 description: The new password to be set (must be at least 8 characters).
+ *                 example: NewPassword@123
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Password changed successfully
+ *                 data:
+ *                   type: object
+ *                   example: {}
+ *       400:
+ *         description: Old password is incorrect or validation failed
+ *       401:
+ *         description: Unauthorized - Access token is missing or invalid
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal Server Error
+ */
