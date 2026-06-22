@@ -4,10 +4,12 @@ let transporter;
 const getTransporter = () => {
     if (!transporter) {
         transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp-relay.brevo.com',
+            port: 587,
+            secure: false, // true for 465, false for other ports
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
+                user: process.env.SMTP_USER || "97dcac001@smtp-brevo.com",
+                pass: process.env.SMTP_PASS || "k7WzKyXADSJ9PvR6"
             }
         });
     }
@@ -26,7 +28,7 @@ const getTransporter = () => {
 export const sendEmail = async ({ to, subject, body, html }) => {
     try {
         const mailOptions = {
-            from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+            from: process.env.SENDER_EMAIL || process.env.SMTP_USER,
             to,
             subject,
             text: body,
