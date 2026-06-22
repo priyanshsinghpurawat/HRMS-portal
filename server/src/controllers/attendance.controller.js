@@ -1,6 +1,7 @@
 import { Attendance } from "../models/Attendance.model.js";
 import { Geofence } from "../models/Geofence.model.js";
 import { Employee } from "../models/Employee.model.js";
+import { CorrectionRequest } from "../models/CorrectionRequest.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -105,4 +106,96 @@ export const getMyTodayAttendance = asyncHandler(async (req, res) => {
     const attendance = await Attendance.findOne({ employeeId: req.user._id, date: today });
 
     return res.status(200).json(new ApiResponse(200, attendance || null, "Attendance retrieved"));
+});
+
+// @desc    Request Leave
+// @route   POST /api/attendance/leave
+// @access  Private (Employee)
+export const requestLeave = asyncHandler(async (req, res) => {
+    const { date, reason } = req.body;
+    const employeeId = req.user._id;
+
+    if (!date || !reason) {
+        throw new ApiError(400, "Date and reason are required");
+    }
+
+    const leaveRequest = await CorrectionRequest.create({
+        employeeId,
+        date: new Date(date),
+        requestType: "Leave",
+        reason,
+        status: "Pending"
+    });
+
+    return res.status(201).json(new ApiResponse(201, leaveRequest, "Leave request submitted successfully"));
+});
+
+// @desc    Get Leave/Correction Requests (For HR/Admin)
+// @route   GET /api/attendance/leaves
+// @access  Private (HR/Admin)
+export const getLeaveRequests = asyncHandler(async (req, res) => {
+    // Retrieve all leave requests (could filter by company if strictly HR)
+    const requests = await CorrectionRequest.find({ requestType: "Leave" }).populate("employeeId", "name email");
+
+    return res.status(200).json(new ApiResponse(200, requests, "Leave requests retrieved"));
+});
+
+// @desc    Approve/Reject Leave Request
+// @route   PUT /api/attendance/leave/:id
+// @access  Private (HR/Admin)
+export const updateLeaveStatus = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { status, hrComment } = req.body; // status: 'Approved' | 'Rejected'
+    const hrId = req.user._id;
+
+    if (!['Approved', 'Rejected'].includes(status)) {
+        throw new ApiError(400, "Invalid status. Must be 'Approved' or 'Rejected'");
+    }
+
+    const leaveRequest = await CorrectionRequest.findById(id);
+    if (!leaveRequest) {
+        throw new ApiError(404, "Leave request not found");
+    }
+
+    leaveRequest.status = status;
+    leaveRequest.resolvedBy = hrId;
+    if (hrComment) leaveRequest.hrComment = hrComment;
+
+    await leaveRequest.save();
+
+    // If approved, create or update the Attendance record as Leave
+    if (status === 'Approved' && leaveRequest.requestType === 'Leave') {
+        const employee = await Employee.findOne({ user: leaveRequest.employeeId });
+        const normalizedDate = getStartOfDay(leaveRequest.date);
+
+        let attendance = await Attendance.findOne({ employeeId: leaveRequest.employeeId, date: normalizedDate });
+
+        if (attendance) {
+            attendance.status = "Leave";
+            attendance.auditLogs.push({
+                action: "Marked Leave",
+                modifiedBy: hrId,
+                timestamp: new Date(),
+                reason: "Leave request approved"
+            });
+            await attendance.save();
+        } else {
+            if (employee) {
+                await Attendance.create({
+                    employeeId: leaveRequest.employeeId,
+                    companyId: employee.company,
+                    date: normalizedDate,
+                    status: "Leave",
+                    auditLogs: [{
+                        action: "Marked Leave",
+                        modifiedBy: hrId,
+                        timestamp: new Date(),
+                        reason: "Leave request approved"
+                    }]
+                });
+            }
+        }
+    }
+
+    return res.status(200).json(new ApiResponse(200, leaveRequest, `Leave request ${status.toLowerCase()}`));
 });
