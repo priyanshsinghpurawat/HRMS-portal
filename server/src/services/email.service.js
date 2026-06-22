@@ -1,12 +1,18 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+let transporter;
+const getTransporter = () => {
+    if (!transporter) {
+        transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
     }
-});
+    return transporter;
+};
 
 /**
  * Send a generic email
@@ -24,14 +30,14 @@ export const sendEmail = async ({ to, subject, body, html }) => {
             to,
             subject,
             text: body,
-            ...(html && { html })
+            html
         };
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log(`Email successfully sent to ${to}. Message ID: ${info.messageId}`);
+        await getTransporter().sendMail(mailOptions);
+        console.log(`Email successfully sent to ${to}.`);
         return true;
     } catch (error) {
-        console.error("Failed to send email via nodemailer:", error.message || error);
+        console.error("Failed to send email:", error.message || error);
         // Fallback to console log in development/failure so developer can still see it
         console.log(`\n================ EMAIL SENT (FALLBACK) ================`);
         console.log(`To: ${to}`);
@@ -72,27 +78,8 @@ export const getOTPEmailTemplate = (name, otp) => {
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <!-- Magnifying Glass Icon / Circle J Logo -->
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <!-- Orange circle (lens) -->
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-                              J
-                            </div>
-                            <!-- Handle -->
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <!-- Jobdekho+ Text -->
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
                 <tr>
@@ -295,27 +282,8 @@ export const getHRCredentialsEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <!-- Magnifying Glass Icon / Circle J Logo -->
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <!-- Orange circle (lens) -->
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">
-                              J
-                            </div>
-                            <!-- Handle -->
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <!-- Jobdekho+ Text -->
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
                 <tr>
@@ -531,27 +499,8 @@ export const getEmployeeCredentialsEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <!-- Magnifying Glass Icon / Circle J Logo -->
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <!-- Orange circle (lens) -->
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">
-                              J
-                            </div>
-                            <!-- Handle -->
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <!-- Jobdekho+ Text -->
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
                 <tr>
@@ -770,27 +719,8 @@ export const getSubscriptionConfirmationEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <!-- Magnifying Glass Icon / Circle J Logo -->
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <!-- Orange circle (lens) -->
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">
-                              J
-                            </div>
-                            <!-- Handle -->
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <!-- Jobdekho+ Text -->
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
                 <tr>
@@ -1014,23 +944,8 @@ export const getJobMatchEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">
-                              J
-                            </div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
                 <tr>
@@ -1227,21 +1142,8 @@ export const getApplicationSubmittedEmailTemplate = (name, jobTitle, companyName
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">J</div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
               </table>
@@ -1306,21 +1208,8 @@ export const getApplicationStatusUpdateEmailTemplate = (name, jobTitle, companyN
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">J</div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
               </table>
@@ -1403,21 +1292,8 @@ export const getRejectionWithRecommendationsEmailTemplate = (name, jobTitle, com
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">J</div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
               </table>
@@ -1533,21 +1409,8 @@ export const getOfferLetterEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">J</div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
               </table>
@@ -1637,21 +1500,8 @@ export const getEmployeeWelcomeEmailTemplate = ({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 8px;">
-                    <table border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto;">
-                      <tr>
-                        <td valign="middle" align="center" style="padding-right: 4px; padding-bottom: 4px;">
-                          <div style="position: relative; width: 44px; height: 44px; margin: 0 auto;">
-                            <div style="position: absolute; top: 0; right: 0; background-color: #FFFFFF; border: 4px solid #FF5500; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; color: #1A1A1A; font-size: 16px; font-weight: 800; font-family: Arial, sans-serif;">J</div>
-                            <div style="position: absolute; bottom: 2px; left: 2px; background-color: #1A1A1A; width: 5px; height: 15px; border-radius: 2px; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform-origin: top left;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-size: 30px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.5px; font-family: Arial, sans-serif;">
-                    Jobdekho<span style="color: #FF5500;">+</span>
+                    <!-- Logo Image -->
+                    <img src="https://res.cloudinary.com/harsh21/image/upload/v1782141956/pngLogo_1_wmn3el.png" alt="Jobdekho Logo" style="width: 200px; height: auto; display: block; margin: 0 auto;">
                   </td>
                 </tr>
               </table>
