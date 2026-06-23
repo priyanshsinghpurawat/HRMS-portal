@@ -76,7 +76,7 @@ export const applyToJob = asyncHandler(async (req, res) => {
         if (!uploadResult) {
             throw new ApiError(500, "Failed to upload resume to cloud storage");
         }
-        resumeUrl = uploadResult.secure_url;
+        resumeUrl = uploadResult.secure_url.replace("/upload/", "/upload/f_auto/");
     } else {
         // Fallback to profile resume
         const profile = await Profile.findOne({ user: req.user._id });
