@@ -1,0 +1,429 @@
+2026-06-30 12:39:53 info: GET /api-docs 301 158 - 8.062 ms
+2026-06-30 12:39:53 info: GET /api-docs/ 200 - - 10.979 ms
+2026-06-30 12:39:54 info: GET /.well-known/appspecific/com.chrome.devtools.json 404 187 - 50.999 ms
+2026-06-30 12:39:54 info: GET /api-docs/swagger-ui-init.js 200 - - 77.363 ms
+2026-06-30 12:39:54 info: GET /api-docs/swagger-ui.css 200 - - 128.449 ms
+2026-06-30 12:39:54 info: GET /api-docs/swagger-ui-standalone-preset.js 200 - - 201.092 ms
+2026-06-30 12:39:54 info: GET /api-docs/swagger-ui.css.map 200 - - 39.994 ms
+2026-06-30 12:39:54 info: GET /api-docs/swagger-ui-bundle.js 200 - - 122.101 ms
+2026-06-30 12:39:55 info: GET /api-docs/favicon-32x32.png 200 628 - 27.701 ms
+2026-06-30 12:41:11 info: POST /api/v1/company/register 201 - - 1064.954 ms
+2026-06-30 12:41:12 info: POST /api/v1/auth/register 201 462 - 190.361 ms
+2026-06-30 12:41:12 info: POST /api/v1/auth/login 200 903 - 200.161 ms
+2026-06-30 12:41:12 info: POST /api/v1/jobs 400 176 - 33.155 ms
+2026-06-30 12:41:13 info: POST /api/v1/company/register 201 - - 1036.337 ms
+2026-06-30 12:41:14 info: POST /api/v1/auth/register 201 462 - 430.408 ms
+2026-06-30 12:41:14 info: POST /api/v1/auth/login 200 903 - 172.449 ms
+2026-06-30 12:41:14 info: POST /api/v1/jobs 400 176 - 11.905 ms
+2026-06-30 12:41:20 info: POST /api/v1/auth/register 201 471 - 186.278 ms
+2026-06-30 12:41:21 info: POST /api/v1/auth/login 200 914 - 119.724 ms
+2026-06-30 12:41:22 info: PUT /api/v1/profile/resume 500 66 - 1439.332 ms
+2026-06-30 12:41:38 info: POST /api/v1/company/register 201 - - 1020.921 ms
+2026-06-30 12:41:38 info: POST /api/v1/auth/register 201 474 - 115.859 ms
+2026-06-30 12:41:38 info: POST /api/v1/auth/login 200 921 - 118.384 ms
+2026-06-30 12:41:38 info: GET /api/v1/jobs/my-jobs 401 62 - 16.185 ms
+2026-06-30 12:41:39 info: POST /api/v1/company/register 201 - - 972.807 ms
+2026-06-30 12:41:39 info: POST /api/v1/auth/register 201 474 - 114.184 ms
+2026-06-30 12:41:40 info: POST /api/v1/auth/login 200 921 - 109.341 ms
+2026-06-30 12:41:40 info: GET /api/v1/jobs/my-jobs 401 55 - 5.759 ms
+2026-06-30 12:41:41 info: POST /api/v1/company/register 201 - - 758.017 ms
+2026-06-30 12:41:41 info: POST /api/v1/auth/register 201 474 - 102.502 ms
+2026-06-30 12:41:41 info: POST /api/v1/auth/login 200 921 - 99.476 ms
+2026-06-30 12:41:41 info: GET /api/v1/jobs/my-jobs 403 92 - 9.518 ms
+2026-06-30 12:41:42 info: POST /api/v1/company/register 201 - - 981.898 ms
+2026-06-30 12:41:42 info: POST /api/v1/auth/register 201 474 - 340.093 ms
+2026-06-30 12:41:43 info: POST /api/v1/auth/login 200 921 - 331.552 ms
+2026-06-30 12:41:43 info: GET /api/v1/jobs/my-jobs 403 95 - 21.165 ms
+2026-06-30 12:41:50 info: POST /api/v1/company/register 201 - - 974.381 ms
+2026-06-30 12:41:51 info: POST /api/v1/auth/register 201 457 - 229.729 ms
+2026-06-30 12:41:51 info: POST /api/v1/auth/login 200 891 - 224.317 ms
+2026-06-30 12:41:52 info: POST /api/v1/jobs 201 787 - 201.464 ms
+2026-06-30 12:41:54 info: POST /api/v1/company/register 201 - - 887.932 ms
+2026-06-30 12:41:54 info: POST /api/v1/auth/register 201 457 - 237.300 ms
+2026-06-30 12:41:54 info: POST /api/v1/auth/login 200 891 - 103.466 ms
+2026-06-30 12:41:54 info: POST /api/v1/jobs 201 787 - 27.209 ms
+2026-06-30 12:41:54 info: GET /api/v1/jobs 200 689 - 25.374 ms
+2026-06-30 12:41:55 info: POST /api/v1/company/register 201 - - 858.302 ms
+2026-06-30 12:41:55 info: POST /api/v1/auth/register 201 457 - 215.591 ms
+2026-06-30 12:41:56 info: POST /api/v1/auth/login 200 891 - 182.924 ms
+2026-06-30 12:41:56 info: POST /api/v1/jobs 201 787 - 34.202 ms
+2026-06-30 12:41:56 info: GET /api/v1/jobs/6a436c3c8ad060d83d945f16 200 - - 63.171 ms
+2026-06-30 12:42:10 info: POST /api/v1/auth/register 201 458 - 318.172 ms
+2026-06-30 12:42:10 info: POST /api/v1/auth/login 200 893 - 154.030 ms
+2026-06-30 12:42:11 info: POST /api/v1/company/register 201 - - 990.552 ms
+2026-06-30 12:42:11 info: GET /api/v1/employees 403 104 - 35.622 ms
+2026-06-30 12:42:24 info: POST /api/v1/auth/register 201 477 - 187.053 ms
+2026-06-30 12:42:25 info: POST /api/v1/auth/register 201 477 - 112.107 ms
+2026-06-30 12:42:25 info: POST /api/v1/auth/register 409 81 - 12.682 ms
+2026-06-30 12:42:25 info: POST /api/v1/auth/register 400 317 - 7.246 ms
+2026-06-30 12:42:25 info: POST /api/v1/auth/register 201 477 - 163.104 ms
+2026-06-30 12:42:25 info: POST /api/v1/auth/login 200 926 - 123.906 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/register 201 477 - 110.163 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/login 401 66 - 90.158 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/register 201 477 - 109.361 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/login 404 61 - 8.119 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/register 201 477 - 103.416 ms
+2026-06-30 12:42:26 info: POST /api/v1/auth/login 200 926 - 97.462 ms
+2026-06-30 12:42:26 info: GET /api/v1/auth/current-user 200 469 - 17.680 ms
+2026-06-30 12:42:27 info: POST /api/v1/auth/register 201 477 - 126.672 ms
+2026-06-30 12:42:27 info: POST /api/v1/auth/login 200 926 - 105.937 ms
+2026-06-30 12:42:27 info: GET /api/v1/auth/current-user 401 62 - 20.518 ms
+2026-06-30 12:42:27 info: POST /api/v1/auth/register 201 477 - 110.658 ms
+2026-06-30 12:42:27 info: POST /api/v1/auth/login 200 926 - 172.208 ms
+2026-06-30 12:42:27 info: GET /api/v1/auth/current-user 401 55 - 3.932 ms
+2026-06-30 12:42:37 info: POST /api/v1/company/register 201 - - 1068.390 ms
+2026-06-30 12:42:38 info: POST /api/v1/company/register 400 384 - 26.644 ms
+2026-06-30 12:42:39 info: POST /api/v1/company/register 201 - - 1008.175 ms
+2026-06-30 12:42:39 info: GET /api/v1/company/profile/6a436c668b9d9ae65e311e33 200 720 - 34.614 ms
+2026-06-30 12:42:46 info: POST /api/v1/auth/register 201 466 - 148.145 ms
+2026-06-30 12:42:47 info: POST /api/v1/auth/login 200 911 - 106.858 ms
+2026-06-30 12:42:47 info: POST /api/v1/attendance/check-in 400 90 - 13.402 ms
+2026-06-30 12:43:18 info: POST /api/v1/company/register 201 - - 1421.679 ms
+2026-06-30 12:43:19 info: POST /api/v1/auth/register 201 462 - 912.562 ms
+2026-06-30 12:43:21 info: POST /api/v1/auth/login 200 903 - 921.930 ms
+2026-06-30 12:43:21 info: POST /api/v1/jobs 400 176 - 116.328 ms
+2026-06-30 12:43:23 info: POST /api/v1/company/register 201 - - 1200.286 ms
+2026-06-30 12:43:24 info: POST /api/v1/auth/register 201 462 - 123.794 ms
+2026-06-30 12:43:24 info: POST /api/v1/auth/login 200 903 - 112.509 ms
+2026-06-30 12:43:24 info: POST /api/v1/jobs 400 176 - 16.721 ms
+2026-06-30 12:43:37 info: POST /api/v1/auth/register 201 471 - 168.963 ms
+2026-06-30 12:43:37 info: POST /api/v1/auth/login 200 914 - 122.609 ms
+2026-06-30 12:43:38 info: PUT /api/v1/profile/resume 500 66 - 1230.998 ms
+2026-06-30 21:14:00 info: GET /api-docs/ 304 - - 45.820 ms
+2026-06-30 21:14:00 info: GET /api-docs/swagger-ui-init.js 200 - - 7.848 ms
+2026-06-30 21:14:00 info: GET /api-docs/swagger-ui.css 200 - - 36.235 ms
+2026-06-30 21:14:00 info: GET /api-docs/swagger-ui-standalone-preset.js 200 - - 33.110 ms
+2026-06-30 21:14:00 info: GET /api-docs/swagger-ui-bundle.js 200 - - 56.217 ms
+2026-06-30 21:14:15 info: GET / 404 139 - 3.803 ms
+2026-06-30 21:14:24 info: GET /api-docs/ 304 - - 2.840 ms
+2026-06-30 21:14:24 info: GET /api-docs/swagger-ui.css 304 - - 10.748 ms
+2026-06-30 21:14:24 info: GET /api-docs/swagger-ui-init.js 304 - - 7.378 ms
+2026-06-30 21:14:24 info: GET /api-docs/swagger-ui-bundle.js 304 - - 19.550 ms
+2026-06-30 21:14:24 info: GET /api-docs/swagger-ui-standalone-preset.js 304 - - 24.322 ms
+2026-06-30 21:49:31 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 21:49:31 info: Server is running at port : 3000
+2026-06-30 22:13:52 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:13:52 info: Server is running at port : 3000
+2026-06-30 22:13:59 info: GET /api/v1 404 145 - 3.891 ms
+2026-06-30 22:14:31 info: GET / 404 139 - 2.232 ms
+2026-06-30 22:14:35 info: GET / 404 139 - 0.884 ms
+2026-06-30 22:15:16 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:16 info: Server is running at port : 3000
+2026-06-30 22:15:19 info: GET / 404 139 - 3.126 ms
+2026-06-30 22:15:29 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:29 info: Server is running at port : 3000
+2026-06-30 22:15:34 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:34 info: Server is running at port : 3000
+2026-06-30 22:15:41 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:41 info: Server is running at port : 3000
+2026-06-30 22:15:46 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:46 info: Server is running at port : 3000
+2026-06-30 22:15:52 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:15:52 info: Server is running at port : 3000
+2026-06-30 22:16:57 info: GET / 404 139 - 3.388 ms
+2026-06-30 22:24:30 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:24:30 info: Server is running at port : 3000
+2026-06-30 22:37:41 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:37:41 info: Server is running at port : 3000
+2026-06-30 22:51:19 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:51:19 info: Server is running at port : 3000
+2026-06-30 22:51:30 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:51:30 info: Server is running at port : 3000
+2026-06-30 22:51:39 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:51:39 info: Server is running at port : 3000
+2026-06-30 22:52:27 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:52:27 info: Server is running at port : 3000
+2026-06-30 22:52:34 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 22:52:34 info: Server is running at port : 3000
+2026-06-30 23:03:15 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 23:03:15 info: Server is running at port : 3000
+2026-06-30 23:03:42 info: POST /company/login 404 153 - 64.836 ms
+2026-06-30 23:03:58 info: GET / 404 139 - 5.471 ms
+2026-06-30 23:04:44 info: POST /company/login 404 153 - 28.671 ms
+2026-06-30 23:04:55 info: GET /api/company/login 404 156 - 19.431 ms
+2026-06-30 23:05:39 info: POST /company/login 404 153 - 9.645 ms
+2026-06-30 23:06:06 info: POST /auth/login 404 150 - 0.724 ms
+2026-06-30 23:06:07 info: POST /auth/login 404 150 - 1.430 ms
+2026-06-30 23:07:22 info: POST /auth/login 404 150 - 2.768 ms
+2026-06-30 23:07:23 info: POST /auth/login 404 150 - 1.685 ms
+2026-06-30 23:07:29 info: POST /company/login 404 153 - 33.319 ms
+2026-06-30 23:07:40 info: GET /api-docs/ 304 - - 221.208 ms
+2026-06-30 23:07:40 info: GET /api-docs/swagger-ui-init.js 200 - - 20.115 ms
+2026-06-30 23:07:41 info: GET /api-docs/swagger-ui.css 200 - - 155.748 ms
+2026-06-30 23:07:41 info: GET /api-docs/swagger-ui-standalone-preset.js 200 - - 183.145 ms
+2026-06-30 23:07:41 info: GET /api-docs/swagger-ui-bundle.js 200 - - 167.670 ms
+2026-06-30 23:08:08 info: POST /company/login 404 153 - 2.270 ms
+2026-06-30 23:08:47 info: POST /company/login 404 153 - 1.368 ms
+2026-06-30 23:09:52 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:09:52 info: POST /api/v1/company/login 400 93 - 241.781 ms
+2026-06-30 23:10:10 info: POST /api/v1/auth/login 200 927 - 268.403 ms
+2026-06-30 23:10:25 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:25 info: POST /api/v1/company/login 400 93 - 135.924 ms
+2026-06-30 23:10:32 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:32 info: POST /api/v1/company/login 400 93 - 140.172 ms
+2026-06-30 23:10:53 error: Error: Company not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:191:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:53 info: POST /api/v1/company/login 404 59 - 134.821 ms
+2026-06-30 23:10:53 info: POST /api/v1/auth/login 200 894 - 247.616 ms
+2026-06-30 23:10:54 info: GET /api/v1/notifications/unread-count 200 77 - 115.452 ms
+2026-06-30 23:10:54 info: GET /api/v1/notifications 200 77 - 129.771 ms
+2026-06-30 23:10:54 info: GET /api/v1/jobs 200 - - 126.504 ms
+2026-06-30 23:10:54 info: GET /api/v1/employees 200 99 - 152.884 ms
+2026-06-30 23:10:54 info: GET /api/v1/notifications 304 - - 91.407 ms
+2026-06-30 23:10:54 info: GET /api/v1/notifications/unread-count 304 - - 108.416 ms
+2026-06-30 23:10:54 info: GET /api/v1/jobs 304 - - 79.833 ms
+2026-06-30 23:10:54 info: GET /api/v1/employees 304 - - 116.226 ms
+2026-06-30 23:11:05 info: GET /api/v1/jobs/my-jobs 200 752 - 120.826 ms
+2026-06-30 23:11:05 info: GET /api/v1/jobs/my-jobs 304 - - 115.278 ms
+2026-06-30 23:11:05 info: GET /api/v1/applications/hr/jobs/6a4377dbdb9333a6651b75cf/applications 200 99 - 140.526 ms
+2026-06-30 23:11:05 info: GET /api/v1/applications/hr/jobs/6a4377dbdb9333a6651b75cf/applications 304 - - 141.159 ms
+2026-06-30 23:11:09 info: GET /api/v1/notifications/unread-count 304 - - 94.112 ms
+2026-06-30 23:11:09 info: GET /api/v1/notifications 304 - - 97.740 ms
+2026-06-30 23:11:09 info: GET /api/v1/jobs 304 - - 100.992 ms
+2026-06-30 23:11:09 info: GET /api/v1/employees 304 - - 146.972 ms
+2026-06-30 23:11:09 info: GET /api/v1/notifications/unread-count 304 - - 116.517 ms
+2026-06-30 23:11:09 info: GET /api/v1/notifications 304 - - 114.786 ms
+2026-06-30 23:11:09 info: GET /api/v1/jobs 304 - - 99.492 ms
+2026-06-30 23:11:09 info: GET /api/v1/employees 304 - - 127.702 ms
+2026-06-30 23:11:11 info: GET /api/v1/jobs 304 - - 102.492 ms
+2026-06-30 23:11:12 info: GET /api/v1/jobs 304 - - 101.869 ms
+2026-06-30 23:11:59 info: GET /api/v1/notifications 304 - - 122.918 ms
+2026-06-30 23:11:59 info: GET /api/v1/notifications/unread-count 304 - - 128.184 ms
+2026-06-30 23:11:59 info: GET /api/v1/jobs 304 - - 137.725 ms
+2026-06-30 23:11:59 info: GET /api/v1/employees 304 - - 159.377 ms
+2026-06-30 23:11:59 info: GET /api/v1/jobs 304 - - 111.732 ms
+2026-06-30 23:11:59 info: GET /api/v1/notifications/unread-count 304 - - 135.172 ms
+2026-06-30 23:11:59 info: GET /api/v1/notifications 304 - - 142.641 ms
+2026-06-30 23:11:59 info: GET /api/v1/employees 304 - - 163.509 ms
+2026-06-30 23:12:05 info: GET /api/v1/employees 304 - - 118.275 ms
+2026-06-30 23:12:05 info: GET /api/v1/employees 304 - - 120.440 ms
+2026-06-30 23:12:07 info: GET /api/v1/employees 304 - - 107.543 ms
+2026-06-30 23:12:08 info: GET /api/v1/notifications 304 - - 80.986 ms
+2026-06-30 23:12:08 info: GET /api/v1/notifications/unread-count 304 - - 99.459 ms
+2026-06-30 23:12:08 info: GET /api/v1/jobs 304 - - 91.894 ms
+2026-06-30 23:12:08 info: GET /api/v1/employees 304 - - 136.641 ms
+2026-06-30 23:12:08 info: GET /api/v1/notifications 304 - - 90.971 ms
+2026-06-30 23:12:08 info: GET /api/v1/notifications/unread-count 304 - - 97.318 ms
+2026-06-30 23:12:08 info: GET /api/v1/jobs 304 - - 102.619 ms
+2026-06-30 23:12:09 info: GET /api/v1/employees 304 - - 124.098 ms
+2026-06-30 23:12:10 info: GET /api/v1/employees 304 - - 118.766 ms
+2026-06-30 23:12:10 info: GET /api/v1/employees 304 - - 127.473 ms
+2026-06-30 23:12:11 info: GET /api/v1/notifications 304 - - 93.227 ms
+2026-06-30 23:12:11 info: GET /api/v1/notifications/unread-count 304 - - 99.587 ms
+2026-06-30 23:12:11 info: GET /api/v1/jobs 304 - - 113.039 ms
+2026-06-30 23:12:11 info: GET /api/v1/employees 304 - - 153.509 ms
+2026-06-30 23:12:11 info: GET /api/v1/notifications 304 - - 128.175 ms
+2026-06-30 23:12:11 info: GET /api/v1/notifications/unread-count 304 - - 134.123 ms
+2026-06-30 23:12:11 info: GET /api/v1/jobs 304 - - 120.995 ms
+2026-06-30 23:12:11 info: GET /api/v1/employees 304 - - 139.142 ms
+2026-06-30 23:12:13 info: GET /api/v1/jobs 304 - - 92.951 ms
+2026-06-30 23:12:13 info: GET /api/v1/jobs 304 - - 70.034 ms
+2026-06-30 23:12:32 info: GET /api/v1/notifications 304 - - 88.304 ms
+2026-06-30 23:12:32 info: GET /api/v1/notifications/unread-count 304 - - 90.343 ms
+2026-06-30 23:12:32 info: GET /api/v1/jobs 304 - - 97.215 ms
+2026-06-30 23:12:32 info: GET /api/v1/employees 304 - - 121.407 ms
+2026-06-30 23:12:32 info: GET /api/v1/jobs 304 - - 76.615 ms
+2026-06-30 23:12:32 info: GET /api/v1/notifications/unread-count 304 - - 105.387 ms
+2026-06-30 23:12:32 info: GET /api/v1/notifications 304 - - 109.858 ms
+2026-06-30 23:12:33 info: GET /api/v1/employees 304 - - 127.782 ms
+2026-06-30 23:12:44 info: GET /api/v1/auth/me 404 153 - 1.402 ms
+2026-06-30 23:12:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:12:44 info: GET /api/v1/profile 404 59 - 88.706 ms
+2026-06-30 23:12:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:12:44 info: GET /api/v1/profile 404 59 - 100.754 ms
+2026-06-30 23:20:05 info: GET /api/v1/auth/me 404 153 - 24.429 ms
+2026-06-30 23:20:06 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:06 info: GET /api/v1/profile 404 59 - 467.962 ms
+2026-06-30 23:20:06 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:06 info: GET /api/v1/profile 404 59 - 92.216 ms
+2026-06-30 23:20:42 info: GET /api/v1/auth/me 404 153 - 1.542 ms
+2026-06-30 23:20:43 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:43 info: GET /api/v1/profile 404 59 - 148.357 ms
+2026-06-30 23:20:43 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:43 info: GET /api/v1/profile 404 59 - 120.878 ms
+2026-06-30 23:20:44 info: GET /api/v1/auth/me 404 153 - 0.764 ms
+2026-06-30 23:20:45 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:45 info: GET /api/v1/profile 404 59 - 110.148 ms
+2026-06-30 23:20:45 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:45 info: GET /api/v1/profile 404 59 - 108.342 ms
+2026-06-30 23:24:26 info: GET /api/v1/auth/me 404 153 - 3.662 ms
+2026-06-30 23:24:27 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:27 info: GET /api/v1/profile 404 59 - 102.450 ms
+2026-06-30 23:24:27 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:27 info: GET /api/v1/profile 404 59 - 88.710 ms
+2026-06-30 23:24:46 info: GET /api/v1/notifications 304 - - 92.870 ms
+2026-06-30 23:24:46 info: GET /api/v1/notifications/unread-count 304 - - 251.518 ms
+2026-06-30 23:24:46 info: GET /api/v1/jobs 304 - - 347.379 ms
+2026-06-30 23:24:46 info: GET /api/v1/employees 304 - - 392.964 ms
+2026-06-30 23:24:46 info: GET /api/v1/notifications 304 - - 238.185 ms
+2026-06-30 23:24:46 info: GET /api/v1/notifications/unread-count 304 - - 131.407 ms
+2026-06-30 23:24:46 info: GET /api/v1/jobs 304 - - 126.779 ms
+2026-06-30 23:24:46 info: GET /api/v1/employees 304 - - 118.725 ms
+2026-06-30 23:24:52 info: GET /api/v1/auth/me 404 153 - 0.719 ms
+2026-06-30 23:24:53 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:53 info: GET /api/v1/profile 404 59 - 84.118 ms
+2026-06-30 23:24:53 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:53 info: GET /api/v1/profile 404 59 - 83.757 ms
+2026-06-30 23:26:08 error: Error: Company not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:191:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:08 info: POST /api/v1/company/login 404 59 - 128.748 ms
+2026-06-30 23:26:08 info: POST /api/v1/auth/login 200 1007 - 200.255 ms
+2026-06-30 23:26:09 info: GET /api/v1/notifications/unread-count 304 - - 53.314 ms
+2026-06-30 23:26:09 info: GET /api/v1/notifications 304 - - 56.911 ms
+2026-06-30 23:26:09 info: GET /api/v1/notifications/unread-count 304 - - 57.475 ms
+2026-06-30 23:26:09 info: GET /api/v1/notifications 304 - - 59.895 ms
+2026-06-30 23:26:26 info: GET /api/v1/auth/me 404 153 - 0.753 ms
+2026-06-30 23:26:26 info: GET /api/v1/notifications 304 - - 56.445 ms
+2026-06-30 23:26:26 info: GET /api/v1/notifications/unread-count 304 - - 64.234 ms
+2026-06-30 23:26:26 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:26 info: GET /api/v1/profile 404 59 - 85.143 ms
+2026-06-30 23:26:26 info: GET /api/v1/notifications 304 - - 63.302 ms
+2026-06-30 23:26:26 info: GET /api/v1/notifications/unread-count 304 - - 82.375 ms
+2026-06-30 23:26:26 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:26 info: GET /api/v1/profile 404 59 - 89.019 ms
+2026-06-30 23:26:34 info: GET /api/v1/auth/me 404 153 - 10.434 ms
+2026-06-30 23:26:34 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:34 info: GET /api/v1/profile 404 59 - 60.078 ms
+2026-06-30 23:26:34 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:34 info: GET /api/v1/profile 404 59 - 63.104 ms
+2026-06-30 23:26:37 info: GET /api/v1/notifications 304 - - 53.898 ms
+2026-06-30 23:26:37 info: GET /api/v1/notifications/unread-count 304 - - 58.327 ms
+2026-06-30 23:26:37 info: GET /api/v1/notifications 304 - - 57.507 ms
+2026-06-30 23:26:37 info: GET /api/v1/notifications/unread-count 304 - - 58.056 ms
+2026-06-30 23:26:44 info: GET /api/v1/auth/me 404 153 - 0.395 ms
+2026-06-30 23:26:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:44 info: GET /api/v1/profile 404 59 - 59.954 ms
+2026-06-30 23:26:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:44 info: GET /api/v1/profile 404 59 - 65.007 ms
+2026-06-30 23:26:47 info: GET /api/v1/notifications 304 - - 54.263 ms
+2026-06-30 23:26:47 info: GET /api/v1/notifications/unread-count 304 - - 56.415 ms
+2026-06-30 23:26:47 info: GET /api/v1/notifications 304 - - 56.148 ms
+2026-06-30 23:26:47 info: GET /api/v1/notifications/unread-count 304 - - 59.281 ms
+2026-06-30 23:26:57 error: Error: Role 'employee' is not allowed to access this resource
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/role.middleware.js:15:17
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:291:5)
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/auth.middleware.js:33:9
+2026-06-30 23:26:57 info: GET /api/v1/attendance/leaves 403 96 - 35.073 ms
+2026-06-30 23:26:57 error: Error: Role 'employee' is not allowed to access this resource
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/role.middleware.js:15:17
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:291:5)
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/auth.middleware.js:33:9
+2026-06-30 23:26:57 info: GET /api/v1/attendance/leaves 403 96 - 34.159 ms
+2026-06-30 23:27:06 info: GET /api/v1/notifications 304 - - 53.802 ms
+2026-06-30 23:27:06 info: GET /api/v1/notifications/unread-count 304 - - 55.873 ms
+2026-06-30 23:27:06 info: GET /api/v1/notifications 304 - - 60.991 ms
+2026-06-30 23:27:06 info: GET /api/v1/notifications/unread-count 304 - - 64.568 ms
+2026-06-30 23:27:08 info: GET /api/v1/employee/profile 200 852 - 97.568 ms
+2026-06-30 23:27:08 info: GET /api/v1/employee/profile 304 - - 82.959 ms
+2026-06-30 23:27:22 info: GET /api/v1/notifications 304 - - 53.355 ms
+2026-06-30 23:27:22 info: GET /api/v1/notifications/unread-count 304 - - 56.654 ms
+2026-06-30 23:27:22 info: GET /api/v1/notifications/unread-count 304 - - 56.414 ms
+2026-06-30 23:27:22 info: GET /api/v1/notifications 304 - - 65.469 ms
+2026-06-30 23:27:24 info: GET /api/v1/payslips 200 92 - 59.762 ms
+2026-06-30 23:27:24 info: GET /api/v1/payslips 304 - - 65.627 ms
+2026-06-30 23:27:26 info: GET /api/v1/notifications/unread-count 304 - - 54.529 ms
+2026-06-30 23:27:26 info: GET /api/v1/notifications 304 - - 61.610 ms
+2026-06-30 23:27:26 info: GET /api/v1/notifications/unread-count 304 - - 58.885 ms
+2026-06-30 23:27:26 info: GET /api/v1/notifications 304 - - 63.157 ms
+2026-06-30 23:27:30 info: GET /api/v1/notifications 304 - - 65.070 ms
+2026-06-30 23:27:30 info: GET /api/v1/notifications/unread-count 304 - - 65.184 ms
+2026-06-30 23:27:31 info: GET /api/v1/notifications 304 - - 62.992 ms
+2026-06-30 23:27:31 info: GET /api/v1/notifications/unread-count 304 - - 62.306 ms
+2026-06-30 23:28:01 info: GET /api/v1/notifications 304 - - 53.917 ms
+2026-06-30 23:28:01 info: GET /api/v1/notifications/unread-count 304 - - 53.105 ms
+2026-06-30 23:28:31 info: GET /api/v1/notifications 304 - - 56.655 ms
+2026-06-30 23:28:31 info: GET /api/v1/notifications/unread-count 304 - - 59.970 ms
+2026-06-30 23:32:35 info: GET /api/v1/auth/me 404 153 - 3.947 ms
+2026-06-30 23:32:35 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:32:35 info: GET /api/v1/profile 404 59 - 73.944 ms
+2026-06-30 23:32:35 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:32:35 info: GET /api/v1/profile 404 59 - 57.848 ms
+2026-06-30 23:40:23 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 23:40:23 info: Server is running at port : 3000

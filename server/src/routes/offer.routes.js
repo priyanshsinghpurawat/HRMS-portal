@@ -29,7 +29,7 @@ router.route("/").post(
     createOffer
 );
 
-router.route("/:id").get(getOfferById);
+router.route("/:id").get(authorizeRoles("hr", "company", "employee"), getOfferById);
 
 // HR Resend Offer
 router.route("/:id/resend").post(
@@ -38,7 +38,7 @@ router.route("/:id/resend").post(
 );
 
 // Candidate Accept/Reject Offer
-router.route("/:id/accept").patch(acceptOffer);
-router.route("/:id/reject").patch(rejectOffer);
+router.route("/:id/accept").patch(authorizeRoles("employee"), acceptOffer);
+router.route("/:id/reject").patch(authorizeRoles("employee"), rejectOffer);
 
 export default router;

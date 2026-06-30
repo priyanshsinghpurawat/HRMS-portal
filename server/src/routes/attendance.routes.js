@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { checkIn, checkOut, getMyTodayAttendance, requestLeave, getLeaveRequests, updateLeaveStatus } from "../controllers/attendance.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
 
 const router = Router();
 
@@ -141,7 +142,7 @@ router.post("/leave", requestLeave);
  *       200:
  *         description: Leave requests retrieved
  */
-router.get("/leaves", getLeaveRequests);
+router.get("/leaves", authorizeRoles("company", "hr", "admin"), getLeaveRequests);
 
 /**
  * @swagger
@@ -176,6 +177,6 @@ router.get("/leaves", getLeaveRequests);
  *       200:
  *         description: Leave request updated successfully
  */
-router.put("/leave/:id", updateLeaveStatus);
+router.put("/leave/:id", authorizeRoles("company", "hr", "admin"), updateLeaveStatus);
 
 export default router;

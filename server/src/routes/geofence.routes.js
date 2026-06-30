@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { setupGeofence, getGeofences } from "../controllers/geofence.controller.js";
+import { setupGeofence, getGeofences, deleteGeofence } from "../controllers/geofence.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
 
 const router = Router();
 
@@ -58,7 +59,7 @@ router.use(verifyJWT);
  *       201:
  *         description: Geofence created successfully
  */
-router.post("/", setupGeofence);
+router.post("/", authorizeRoles("company", "hr", "admin"), setupGeofence);
 
 /**
  * @swagger
@@ -78,6 +79,28 @@ router.post("/", setupGeofence);
  *       200:
  *         description: Geofences retrieved successfully
  */
-router.get("/:companyId", getGeofences);
+router.get("/:companyId", authorizeRoles("company", "hr", "admin", "employee"), getGeofences);
+
+/**
+ * @swagger
+ * /api/v1/geofence/{geofenceId}:
+ *   delete:
+ *     summary: Delete a Geofence (HR/Admin)
+ *     tags: [Geofence]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: geofenceId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Geofence deleted successfully
+ *       404:
+ *         description: Geofence not found
+ */
+router.delete("/:geofenceId", authorizeRoles("company", "hr", "admin"), deleteGeofence);
 
 export default router;

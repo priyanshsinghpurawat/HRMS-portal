@@ -4,6 +4,8 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import { jest } from '@jest/globals';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,6 +18,12 @@ describe('File Upload Integration Tests', () => {
         // Create a dummy file for testing uploads
         dummyFilePath = path.join(__dirname, 'dummy.pdf');
         fs.writeFileSync(dummyFilePath, 'dummy pdf content');
+
+        // Mock Cloudinary upload
+        jest.spyOn(cloudinary.uploader, 'upload').mockResolvedValue({
+            secure_url: 'https://res.cloudinary.com/demo/image/upload/v1234567890/sample.pdf',
+            public_id: 'sample_id'
+        });
     });
 
     afterAll(() => {

@@ -37,3 +37,5 @@ export const validate = (schema) => async (req, res, next) => {
         return next(error);
     }
 };
+
+export const validateRequest = validate;

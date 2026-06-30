@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, loginUser, logoutUser, getCurrentUser, changePassword, googleLoginUser } from "../controllers/auth.controller.js";
+import { registerUser, loginUser, logoutUser, getCurrentUser, changePassword, forgotPassword, resetPassword, googleLoginUser } from "../controllers/auth.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { registerSchema, loginSchema, changePasswordSchema, googleLoginSchema } from "../validations/auth.validation.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -12,6 +12,8 @@ router.route("/login").post(loginRateLimiter, validate(loginSchema), loginUser);
 router.route("/google").post(loginRateLimiter, validate(googleLoginSchema), googleLoginUser);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/change-password").post(verifyJWT, validate(changePasswordSchema), changePassword);
+router.route("/forgot-password").post(forgotPassword);
+router.route("/reset-password").post(resetPassword);
 
 router.route("/logout").post(verifyJWT, logoutUser);
 

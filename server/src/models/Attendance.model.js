@@ -20,7 +20,10 @@ const attendanceSchema = new mongoose.Schema({
     time: { type: Date },
     location: {
       type: { type: String, enum: ['Point'], default: 'Point' },
-      coordinates: { type: [Number] } // [longitude, latitude]
+      coordinates: { type: [Number] }, // [longitude, latitude]
+      address: { type: String },
+      accuracy: { type: Number },
+      ipAddress: { type: String }
     },
     deviceInfo: { type: String },
     selfieUrl: { type: String }, // Optional, mostly for HR
@@ -31,17 +34,28 @@ const attendanceSchema = new mongoose.Schema({
     time: { type: Date },
     location: {
       type: { type: String, enum: ['Point'], default: 'Point' },
-      coordinates: { type: [Number] }
+      coordinates: { type: [Number] },
+      address: { type: String },
+      accuracy: { type: Number },
+      ipAddress: { type: String }
     },
     deviceInfo: { type: String }
   },
   
   status: { 
     type: String, 
-    enum: ['Present', 'Absent', 'Half Day', 'Late', 'Leave'], 
+    enum: ['Present', 'Absent', 'Half Day', 'Late', 'Leave', 'Work From Home', 'Weekly Off', 'Company Holiday', 'Paid Leave', 'Unpaid Leave'], 
     default: 'Absent' 
   },
   totalHours: { type: Number, default: 0 },
+  totalBreakDuration: { type: Number, default: 0 },
+  overtimeHours: { type: Number, default: 0 },
+  attendanceSource: { 
+    type: String, 
+    enum: ['WEB', 'MOBILE', 'BIOMETRIC', 'GPS', 'FACE_RECOGNITION', 'HR', 'SYSTEM']
+  },
+  notes: { type: String },
+  markedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   
   auditLogs: [{
     action: { type: String, enum: ['Marked Leave', 'Edited Time', 'Approved Correction'] },
@@ -54,5 +68,7 @@ const attendanceSchema = new mongoose.Schema({
 
 // Compound index for fast querying per user per day
 attendanceSchema.index({ employeeId: 1, date: 1 }, { unique: true });
+attendanceSchema.index({ companyId: 1, date: 1 });
+attendanceSchema.index({ status: 1 });
 
 export const Attendance = mongoose.model('Attendance', attendanceSchema);

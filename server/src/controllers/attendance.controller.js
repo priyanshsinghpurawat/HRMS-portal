@@ -8,6 +8,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { getStartOfDay } from "../utils/startOfDay.js";
 import { calculateHours } from "../utils/calculateHours.js";
 import { isWithinGeofence } from "../services/location.service.js";
+import * as attendanceService from "../services/attendance/attendance.service.js";
 
 // @desc    Check-in Employee
 // @route   POST /api/attendance/check-in
@@ -198,4 +199,66 @@ export const updateLeaveStatus = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json(new ApiResponse(200, leaveRequest, `Leave request ${status.toLowerCase()}`));
+});
+
+// --- HR Management APIs ---
+
+// @desc    HR Manually Marks Attendance
+// @route   POST /api/company/attendance
+// @access  Private (HR/Company)
+export const hrMarkRecord = asyncHandler(async (req, res) => {
+    const companyId = req.user.companyId || req.user._id;
+    const hrId = req.user._id;
+
+    const attendance = await attendanceService.hrMarkAttendance(companyId, hrId, req.body);
+    
+    return res.status(201).json(new ApiResponse(201, attendance, "Attendance marked successfully"));
+});
+
+// @desc    HR Updates Attendance
+// @route   PATCH /api/company/attendance/:attendanceId
+// @access  Private (HR/Company)
+export const hrUpdateRecord = asyncHandler(async (req, res) => {
+    const companyId = req.user.companyId || req.user._id;
+    const hrId = req.user._id;
+    const { attendanceId } = req.params;
+
+    const attendance = await attendanceService.hrUpdateAttendance(companyId, hrId, attendanceId, req.body);
+    
+    return res.status(200).json(new ApiResponse(200, attendance, "Attendance updated successfully"));
+});
+
+// @desc    HR Gets Single Attendance Record
+// @route   GET /api/company/attendance/:attendanceId
+// @access  Private (HR/Company)
+export const hrGetRecord = asyncHandler(async (req, res) => {
+    const companyId = req.user.companyId || req.user._id;
+    const { attendanceId } = req.params;
+
+    const attendance = await attendanceService.hrGetAttendanceById(companyId, attendanceId);
+    
+    return res.status(200).json(new ApiResponse(200, attendance, "Attendance retrieved successfully"));
+});
+
+// @desc    HR Queries Attendance Records
+// @route   GET /api/company/attendance
+// @access  Private (HR/Company)
+export const hrQueryRecords = asyncHandler(async (req, res) => {
+    const companyId = req.user.companyId || req.user._id;
+
+    const records = await attendanceService.hrQueryAttendance(companyId, req.query);
+    
+    return res.status(200).json(new ApiResponse(200, records, "Attendance records retrieved successfully"));
+});
+
+// @desc    HR Bulk Marks Attendance
+// @route   POST /api/company/attendance/bulk
+// @access  Private (HR/Company)
+export const hrBulkRecords = asyncHandler(async (req, res) => {
+    const companyId = req.user.companyId || req.user._id;
+    const hrId = req.user._id;
+
+    const result = await attendanceService.hrBulkMarkAttendance(companyId, hrId, req.body.records);
+    
+    return res.status(201).json(new ApiResponse(201, result, "Bulk attendance processed successfully"));
 });

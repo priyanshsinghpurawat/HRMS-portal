@@ -64,3 +64,19 @@ export const getGeofences = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, geofences, "Geofences retrieved successfully"));
 });
+
+// @desc    Delete a Geofence
+// @route   DELETE /api/geofence/:geofenceId
+// @access  HR/Admin
+export const deleteGeofence = asyncHandler(async (req, res) => {
+    const { geofenceId } = req.params;
+
+    const geofence = await Geofence.findById(geofenceId);
+    if (!geofence) {
+        throw new ApiError(404, "Geofence not found");
+    }
+
+    await Geofence.findByIdAndDelete(geofenceId);
+
+    return res.status(200).json(new ApiResponse(200, null, "Geofence deleted successfully"));
+});

@@ -1,0 +1,122 @@
+2026-06-30 23:09:52 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:25 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:32 error: Error: Please verify your email address before logging in.
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:196:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:10:53 error: Error: Company not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:191:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:12:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:12:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:06 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:06 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:43 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:43 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:45 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:20:45 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:27 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:27 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:53 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:24:53 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:08 error: Error: Company not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/company.controller.js:191:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:26 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:26 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:34 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:34 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:44 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:26:57 error: Error: Role 'employee' is not allowed to access this resource
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/role.middleware.js:15:17
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:291:5)
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/auth.middleware.js:33:9
+2026-06-30 23:26:57 error: Error: Role 'employee' is not allowed to access this resource
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/role.middleware.js:15:17
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\priya\Documents\JobDekho\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\priya\Documents\JobDekho\server\node_modules\router\index.js:291:5)
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/middlewares/auth.middleware.js:33:9
+2026-06-30 23:32:35 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13
+2026-06-30 23:32:35 error: Error: Profile not found
+    at file:///C:/Users/priya/Documents/JobDekho/server/src/controllers/profile.controller.js:99:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/priya/Documents/JobDekho/server/src/utils/asyncHandler.js:6:13

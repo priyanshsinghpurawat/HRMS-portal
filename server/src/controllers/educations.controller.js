@@ -6,7 +6,7 @@ import { Education } from "../models/Education.model.js";
 
 export const userEducation = asyncHandler(async (req, res) => {
 
-    const user = await User.findById(req.user);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
         throw new ApiError(404, "User not found");
@@ -66,7 +66,7 @@ export const updateEducation = asyncHandler(async (req, res) => {
     };
 
     if (education.user.toString() !== req.user._id.toString()) {
-        throw new ApiError(403, "You are not authorize to edit this record");
+        throw new ApiError(403, "You are not authorized to edit this record");
     };
 
     const allowedFields = [
@@ -106,11 +106,11 @@ export const deleteEducation = asyncHandler(async (req, res) => {
 
     const education = await Education.findById(id);
     if (!education) {
-        throw new ApiError(404, "education record not found")
+        throw new ApiError(404, "Education record not found")
     };
 
     if (education.user.toString() !== req.user._id.toString()) {
-        throw new ApiError(403, "you are not authorize to edit this record")
+        throw new ApiError(403, "You are not authorized to edit this record")
     }
 
     await education.deleteOne();

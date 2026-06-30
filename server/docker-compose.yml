@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  hrms-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hrms-backend-prod
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+      # Pass through essential secrets via Docker environment or .env file mapping
+      - MONGODB_URI=${MONGODB_URI}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - REDIS_URL=redis://hrms-redis:6379
+    depends_on:
+      - hrms-redis
+
+  hrms-redis:
+    image: redis:7-alpine
+    container_name: hrms-redis-prod
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  redis_data:

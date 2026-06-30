@@ -93,7 +93,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 const getProfile = asyncHandler(async (req, res) => {
-    const profile = await Profile.findOne({ user: req.user._id }).populate("user", "name email phone role isVerified");
+    const profile = await Profile.findOne({ user: req.user._id }).populate("user", "name email phone role isEmailVerified");
 
     if (!profile) {
         throw new ApiError(404, "Profile not found");

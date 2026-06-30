@@ -8,8 +8,8 @@ const getTransporter = () => {
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: process.env.SMTP_USER || "97dcac001@smtp-brevo.com",
-                pass: process.env.SMTP_PASS || "k7WzKyXADSJ9PvR6"
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS
             }
         });
     }

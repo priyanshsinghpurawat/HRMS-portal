@@ -1,10 +1,11 @@
 import { ApiError } from "../utils/ApiError.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Global Error Handler Middleware
  */
 export const errorHandler = (err, req, res, next) => {
-    console.error("Express Caught Error:", err);
+    logger.error("Express Caught Error:", err);
     let error = err;
 
     if (!(error instanceof ApiError)) {

@@ -1,6 +1,6 @@
-# 🚀 Job Portal Backend
+# 🚀 Job Portal Platform (Frontend + Backend)
 
-A scalable backend project for Job Portal applications built using Node.js, Express.js, MongoDB, and Cloudinary.
+A scalable full-stack Job Portal and HRMS application built using React (Vite), Node.js, Express.js, MongoDB, and Cloudinary.
 
 This backend provides authentication, profile management, profile image upload, and resume upload APIs.
 
@@ -69,6 +69,35 @@ npm run dev
 ```bash
 npm start
 ```
+
+---
+
+## 5️⃣ Frontend Setup
+
+1. Navigate to the client directory:
+```bash
+cd client
+```
+2. Install frontend dependencies:
+```bash
+npm install
+```
+3. Create a `.env` file in the `client` directory. **Crucial:** Ensure the API URL includes `/api/v1`:
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+```
+4. Start the frontend development server:
+```bash
+npm run dev
+```
+
+---
+
+## 🚀 Recent Updates & Fixes
+* **Global 404 Resolution**: Missing frontend routes (footer marketing links, unfinished dashboards) are now dynamically captured and mapped to a beautifully designed `ComingSoon` component instead of throwing unhandled 404 errors.
+* **HRMS Auth Connectivity**: Re-aligned frontend `HrmApi` calls with the backend by globally enforcing the `/api/v1` prefix via Vite environment variables.
+* **Employee Dashboard Fixes**: Corrected spelling and broken router links (`/employee/attendance`, `LeaveApplyEm`).
+* **Enhanced Footer Navigation**: Re-built footer aesthetics with standardized, modern links pointing to valid UI fallbacks.
 
 ---
 

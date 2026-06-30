@@ -126,6 +126,15 @@ const userSchema = new Schema(
         isEmailVerified: {
             type: Boolean,
             default: false
+        },
+
+        resetPasswordToken: {
+            type: String,
+            select: false
+        },
+        resetPasswordExpiry: {
+            type: Date,
+            select: false
         }
     },
     {

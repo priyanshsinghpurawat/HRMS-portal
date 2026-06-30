@@ -412,6 +412,21 @@ const options = {
             address: { type: "string" },
             emergencyContact: { type: "string" }
           }
+        },
+
+        Feedback: {
+          type: "object",
+          properties: {
+            _id: { type: "string", example: "60d0fe4f5311236168a109ca" },
+            title: { type: "string", example: "Great Platform" },
+            description: { type: "string", example: "The hiring process was smooth and the UI is intuitive." },
+            rating: { type: "integer", minimum: 1, maximum: 5, example: 5 },
+            companyId: { type: "string", example: "60d0fe4f5311236168a109ca" },
+            companyName: { type: "string", example: "Acme Corp" },
+            companyProfilePhoto: { type: "string", example: "https://res.cloudinary.com/.../logo.jpg" },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" }
+          }
         }
 
       }

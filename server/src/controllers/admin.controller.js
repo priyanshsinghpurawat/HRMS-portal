@@ -144,7 +144,7 @@ export const getActiveCompanies = asyncHandler(async (req, res) => {
 
 // 11. Get active users (where role = "user" and isBlocked is false)
 export const getActiveUsers = asyncHandler(async (req, res) => {
-  const activeUsers = await User.find({ role: "user", isBlocked: false }).select("-password");
+  const activeUsers = await User.find({ role: "user", "blocked.isBlocked": false }).select("-password");
   return res.status(200).json(
     new ApiResponse(200, activeUsers, "Active users fetched successfully")
   );
