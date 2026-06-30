@@ -32,7 +32,7 @@ import HrDirectory from "../Component/Hrms/Company/dashboard/companyDashboardHom
 import HrApplications from "../Component/Hrms/Company/dashboard/Hrdashboard/HrApplications";
 import MyApplications from "../Component/Jobportal/Home/JobLayoutHome/Jobspage/MyApplications";
 import ProfileEM from "../Component/Hrms/Company/dashboard/Employeedashboard/ProfileEM";
-import LeveApplyEm from "../Component/Hrms/Company/dashboard/Employeedashboard/LeveApplyEm";
+import LeaveApplyEm from "../Component/Hrms/Company/dashboard/Employeedashboard/LeaveApplyEm";
 import LeaveRequest from "../Component/Hrms/Company/dashboard/Hrdashboard/LeaveRequest.jsx";
 import MasterOverview from "../Component/Hrms/Company/dashboard/companyDashboardHome/MasterOverview.jsx";
 import AttendanceEm from "../Component/Hrms/Company/dashboard/Employeedashboard/AttendanceEm.jsx";
@@ -122,7 +122,7 @@ function RouteMain() {
           <Route element={<HRMSProtectedRoute allowedRoles={["employee"]} />}>
             <Route path="/employeedashboard" element={<PageTransition><Employeedashboard /></PageTransition>} />
             <Route path="/employee/profile" element={<PageTransition><ProfileEM /></PageTransition>} />
-            <Route path="/employee/leave" element={<PageTransition><LeveApplyEm /></PageTransition>} />
+            <Route path="/employee/leave" element={<PageTransition><LeaveApplyEm /></PageTransition>} />
             <Route path="/employee/attendance" element={<PageTransition><AttendanceEm /></PageTransition>} />
             <Route path="/employee/payslips" element={<PageTransition><PayslipsPage /></PageTransition>} />
             <Route path="/employee/my-applications" element={<PageTransition><ComingSoon /></PageTransition>} />

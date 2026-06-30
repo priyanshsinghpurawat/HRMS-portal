@@ -427,3 +427,5 @@
 2026-06-30 23:32:35 info: GET /api/v1/profile 404 59 - 57.848 ms
 2026-06-30 23:40:23 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
 2026-06-30 23:40:23 info: Server is running at port : 3000
+2026-06-30 23:56:41 info: MongoDB connected !! DB HOST: ac-7ehkas2-shard-00-00.lcoud34.mongodb.net
+2026-06-30 23:56:41 info: Server is running at port : 3000

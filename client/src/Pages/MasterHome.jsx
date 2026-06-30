@@ -1,4 +1,4 @@
-import CTASection from "./Allhomepage/CTASection";
+import HomeFaqSection from "./Allhomepage/HomeFaqSection";
 import FooterBanner from "./Allhomepage/FooterBanner";
 import HeroSection from "./Allhomepage/HeroSection";
 import JobCategories from "./Allhomepage/JobCategories";
@@ -18,7 +18,7 @@ function MasterHome() {
          <WhyChooseUs />
          <JobCategories />
          <Testimonials />
-         <CTASection />
+         <HomeFaqSection />
          <FooterBanner />
        </div>
     </>
