@@ -113,6 +113,7 @@ function RouteMain() {
             <Route path="/hr/profile" element={<PageTransition><HrProfile /></PageTransition>} />
             <Route path="/hr/employee-detail" element={<PageTransition><EmployeeDetail /></PageTransition>} />
             <Route path="/hr/leave-request" element={<PageTransition><LeaveRequest /></PageTransition>} />
+            <Route path="/hr/leave-requests" element={<PageTransition><LeaveRequest /></PageTransition>} />
             <Route path="/hr/attendance" element={<PageTransition><Attendance /></PageTransition>} />
             <Route path="/hr/job-post" element={<PageTransition><JobPost /></PageTransition>} />
             <Route path="/hr/applyer-details" element={<PageTransition><ApplyerDetails /></PageTransition>} />
