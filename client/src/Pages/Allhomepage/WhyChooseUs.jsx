@@ -1,12 +1,14 @@
 // Component/Jobportal/Home/WhyChooseUs.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   ShieldCheck,
   Rocket,
   BriefcaseBusiness,
   TrendingUp,
   LayoutDashboard,
+  ArrowRight,
 } from "lucide-react";
 
 export const whyChooseUsData = [
@@ -150,94 +152,288 @@ export const whyChooseUsData = [
 export default function WhyChooseUs() {
   const navigate = useNavigate();
 
-  return (
-    <section className="bg-gradient-to-r from-[#fff7f2] via-[#fff3eb] to-[#ffe4d6] py-20 px-4">
-      <div className="max-w-[92%] 2xl:max-w-[1440px] mx-auto">
-        
-        {/* HEADER */}
-        <div className="text-center mb-16">
-          <span className="text-[#EA580C] text-sm font-semibold uppercase tracking-[2px]">
-            Features
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-3">
-            Why Choose <span className="text-[#EA580C]">JobDekho?</span>
-          </h2>
-          <p className="text-gray-600 mt-4 text-base md:text-lg max-w-2xl mx-auto">
-            Explore smart tools that help you find jobs faster and manage your workflow efficiently.
-          </p>
-        </div>
+  const getGridSpan = (id) => {
+    switch (id) {
+      case "verified":
+        return "lg:col-span-2 md:col-span-2 col-span-1";
+      case "fastApply":
+        return "lg:col-span-1 md:col-span-1 col-span-1";
+      case "workflow":
+        return "lg:col-span-1 md:col-span-1 col-span-1";
+      case "growth":
+        return "lg:col-span-2 md:col-span-2 col-span-1";
+      case "dashboard":
+        return "lg:col-span-3 md:col-span-2 col-span-1";
+      default:
+        return "col-span-1";
+    }
+  };
 
-        {/* STICKY CARDS LOOP */}
-        <div className="relative flex flex-col gap-6 md:gap-12 pb-32">
-          {whyChooseUsData.map((card, index) => (
-            <div
-              key={card.id}
-              className={`sticky w-full rounded-[32px] shadow-2xl overflow-hidden transition-all duration-300 ${card.color}`}
-              style={{
-                top: `calc(6rem + ${index * 2.5}rem)`, 
-                zIndex: index + 1,
-              }}
-            >
-              <div className="grid lg:grid-cols-2 gap-8 items-center p-8 md:p-12 lg:p-16 bg-white/60 backdrop-blur-sm">
-                
-                {/* Text & Amenities Content */}
+  const renderMockup = (id) => {
+    switch (id) {
+      case "verified":
+        return (
+          <div className="relative w-full bg-slate-950 text-white rounded-2xl p-5 border border-slate-800/80 shadow-2xl overflow-hidden font-sans">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#EA580C] font-bold text-sm">
+                  JD
+                </div>
                 <div>
-                  <div className="flex items-center gap-2 mb-6">
-                    <span className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm text-[#EA580C]">
-                      {card.icon}
-                    </span>
-                    <span className="font-semibold text-gray-900 border border-gray-200 bg-white px-3 py-1 rounded-full text-sm">
-                      {card.label}
-                    </span>
-                  </div>
-
-                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mt-4 leading-tight">
-                    {card.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mt-4 text-base md:text-lg leading-relaxed max-w-md">
-                    {card.desc}
-                  </p>
-
-                  {/* RENDERING AMENITIES FOR EACH CARD */}
-                  {card.amenities && card.amenities.length > 0 && (
-                    <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl">
-                      {card.amenities.map((item, i) => (
-                        <div key={i} className="flex flex-col items-center text-center bg-white/80 p-3 rounded-xl border border-gray-100 shadow-sm">
-                          <img 
-                            src={item.img} 
-                            alt={item.title} 
-                            className="w-12 h-12 object-cover rounded-lg mb-2"
-                          />
-                          <h4 className="text-xs font-bold text-gray-800 line-clamp-1">{item.title}</h4>
-                          <p className="text-[10px] text-gray-500 mt-1 line-clamp-2 leading-tight">{item.desc}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {/* NAVIGATION LINK */}
-                  <button
-                    onClick={() => navigate(`/mainwhydetails/${card.id}`)}
-                    className="mt-8 px-6 py-3 bg-[#EA580C] text-white font-medium rounded-xl shadow-md hover:bg-[#d44f0a] transition-colors w-full sm:w-auto"
-                  >
-                    Learn More →
-                  </button>
+                  <h4 className="text-xs font-bold text-white">JobDekho Shield</h4>
+                  <p className="text-[9px] text-gray-400">Security Audit</p>
                 </div>
-
-                {/* Cover Image Frame */}
-                <div className="relative w-full h-full min-h-[300px] lg:min-h-[450px]">
-                  <div className="absolute inset-0 bg-[#EA580C] blur-[80px] opacity-10 rounded-full"></div>
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-lg border border-white/50"
-                  />
-                </div>
-                
+              </div>
+              <span className="text-[9px] bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full font-medium">
+                100% Secure
+              </span>
+            </div>
+            <div className="space-y-2 text-left">
+              <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-850 flex items-center justify-between">
+                <span className="text-[11px] text-gray-300">Recruiter ID Verification</span>
+                <span className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">✓</span>
+              </div>
+              <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-850 flex items-center justify-between">
+                <span className="text-[11px] text-gray-300">Anti-Fraud Spam Screening</span>
+                <span className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">✓</span>
               </div>
             </div>
-          ))}
+            <div className="mt-4 pt-3 border-t border-slate-900 flex items-center justify-between text-[9px] text-gray-400">
+              <span>Automatic screening desk</span>
+              <span className="text-[#EA580C] font-semibold">Active protection</span>
+            </div>
+          </div>
+        );
+      case "fastApply":
+        return (
+          <div className="w-full bg-slate-50 border border-slate-200/50 rounded-2xl p-4 flex flex-col gap-3 font-sans mt-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] text-gray-500 font-medium">Resume: Priyansh_CV.pdf</span>
+              <span className="text-[9px] text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full font-semibold">Ready</span>
+            </div>
+            <button className="w-full py-2.5 bg-gradient-to-r from-[#EA580C] to-rose-500 text-white rounded-xl text-[11px] font-bold shadow-sm hover:brightness-105 transition active:scale-98 flex items-center justify-center gap-1.5 cursor-pointer">
+              <Rocket size={12} className="animate-bounce" /> One-Click Apply
+            </button>
+            <div className="flex justify-between text-[9px] text-gray-400 border-t border-gray-100 pt-2 font-medium">
+              <span>⚡ Instant Delivery</span>
+              <span>•</span>
+              <span>✓ Auto-Autofill</span>
+            </div>
+          </div>
+        );
+      case "workflow":
+        return (
+          <div className="w-full bg-slate-50 border border-slate-200/50 rounded-2xl p-4 flex flex-col gap-3 font-sans mt-4 text-left">
+            <h4 className="text-[11px] font-bold text-gray-700">Application Pipeline</h4>
+            <div className="flex flex-col gap-3 relative pl-4 before:content-[''] before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-orange-100">
+              <div className="flex items-center gap-2 text-[11px] relative">
+                <span className="absolute -left-[14px] top-1 w-2 h-2 rounded-full bg-green-500 border-2 border-white ring-2 ring-green-100"></span>
+                <span className="font-semibold text-gray-800">Applied</span>
+                <span className="text-[8px] text-gray-400 ml-auto">Mon, 10:00 AM</span>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] relative">
+                <span className="absolute -left-[14px] top-1 w-2 h-2 rounded-full bg-green-500 border-2 border-white ring-2 ring-green-100"></span>
+                <span className="font-semibold text-gray-800">Screening Test</span>
+                <span className="text-[8px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded font-semibold ml-auto">Passed</span>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] relative">
+                <span className="absolute -left-[14px] top-1 w-2 h-2 rounded-full bg-[#EA580C] border-2 border-white ring-2 ring-orange-100 animate-pulse"></span>
+                <span className="font-semibold text-gray-800">Interview</span>
+                <span className="text-[8px] text-[#EA580C] bg-orange-50 px-1.5 py-0.5 rounded font-semibold ml-auto">Scheduled</span>
+              </div>
+            </div>
+          </div>
+        );
+      case "growth":
+        return (
+          <div className="relative w-full bg-slate-950 text-white rounded-2xl p-5 border border-slate-800/80 shadow-2xl overflow-hidden font-sans text-left">
+            <h4 className="text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-wider">Salary Benchmarking</h4>
+            <div className="space-y-2.5">
+              <div>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-gray-300">Junior Developer</span>
+                  <span className="text-orange-400 font-bold">$60k - $80k</span>
+                </div>
+                <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                  <div className="bg-orange-500 h-full w-[45%] rounded-full"></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-gray-300">Senior Developer</span>
+                  <span className="text-orange-400 font-bold">$110k - $140k</span>
+                </div>
+                <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                  <div className="bg-gradient-to-r from-orange-500 to-rose-500 h-full w-[75%] rounded-full"></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-gray-300">Tech Lead / Architect</span>
+                  <span className="text-orange-400 font-bold">$160k - $210k</span>
+                </div>
+                <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                  <div className="bg-gradient-to-r from-orange-500 via-rose-500 to-violet-500 h-full w-[95%] rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case "dashboard":
+        return (
+          <div className="w-full bg-slate-950 border border-slate-800/80 rounded-2xl p-5 text-white shadow-2xl flex flex-col gap-4 font-sans max-w-sm mx-auto text-left">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-850">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-500 inline-block"></span>
+                <span className="w-2 h-2 rounded-full bg-yellow-500 inline-block"></span>
+                <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+              </div>
+              <span className="text-[9px] text-gray-500 font-mono">jobdekho-dashboard.sh</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-850">
+                <span className="text-[9px] text-gray-400 block mb-1 uppercase font-semibold">Profile Views</span>
+                <span className="text-lg font-bold text-orange-400">1,842</span>
+                <span className="text-[8px] text-green-400 block mt-0.5 font-medium">↑ +14.2%</span>
+              </div>
+              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-850">
+                <span className="text-[9px] text-gray-400 block mb-1 uppercase font-semibold">Interviews</span>
+                <span className="text-lg font-bold text-rose-400">5 Active</span>
+                <span className="text-[8px] text-gray-300 block mt-0.5 font-medium">Next: Wed 2 PM</span>
+              </div>
+            </div>
+            <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-850 flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-500 font-bold text-xs">
+                %
+              </div>
+              <div>
+                <h5 className="text-[10px] font-bold text-white leading-none">Success Match Score</h5>
+                <span className="text-[8px] text-gray-400">42 active skill tags matched</span>
+              </div>
+              <span className="text-[11px] font-bold text-green-400 ml-auto">94%</span>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <section className="bg-gradient-to-b from-[#fff7f2] via-[#fffafd] to-[#fcf5f1] py-20 px-4 md:px-6 relative overflow-hidden">
+      {/* Decorative ambient blobs */}
+      <div className="absolute top-1/4 left-0 w-80 h-80 bg-orange-200/20 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-rose-200/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="max-w-[92%] 2xl:max-w-[1440px] mx-auto relative z-10">
+        
+        {/* HEADER */}
+        <div className="text-center mb-16 md:mb-20">
+          <motion.span 
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[#EA580C] text-xs md:text-sm font-bold uppercase tracking-[3px] bg-orange-50 border border-orange-100 px-4 py-1.5 rounded-full"
+          >
+            Features System
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl font-black text-gray-900 mt-6 tracking-tight leading-none"
+          >
+            Why Choose <span className="text-[#EA580C] relative">JobDekho<span className="absolute bottom-1 left-0 w-full h-[6px] bg-orange-500/10 -z-10 rounded"></span></span>?
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-500 mt-4 text-sm md:text-base max-w-xl mx-auto leading-relaxed"
+          >
+            Powering your job search with speed, security, and next-generation matching engines.
+          </motion.p>
+        </div>
+
+        {/* BENTO GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {whyChooseUsData.map((card, index) => {
+            const isWide = card.id === "verified" || card.id === "growth" || card.id === "dashboard";
+            return (
+              <motion.div
+                key={card.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                onClick={() => navigate(`/mainwhydetails/${card.id}`)}
+                className={`group cursor-pointer rounded-3xl border border-gray-100/80 bg-white/70 backdrop-blur-md p-6 md:p-8 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(234,88,12,0.05)] hover:border-orange-100/50 ${getGridSpan(card.id)}`}
+              >
+                <div className={`flex flex-col h-full justify-between gap-6 ${isWide ? "lg:flex-row lg:items-center" : ""}`}>
+                  
+                  {/* Left Column / Text details */}
+                  <div className={`flex flex-col justify-between h-full ${isWide ? "lg:w-[52%]" : "w-full"}`}>
+                    <div>
+                      {/* Badge / Category Header */}
+                      <div className="flex items-center gap-2 mb-6">
+                        <span className="flex items-center justify-center w-8 h-8 bg-orange-50 border border-orange-100 rounded-xl text-[#EA580C] shadow-sm">
+                          {card.icon}
+                        </span>
+                        <span className="font-semibold text-gray-800 border border-gray-100 bg-gray-50/50 px-3 py-0.5 rounded-full text-[10px] md:text-xs tracking-wider uppercase">
+                          {card.label}
+                        </span>
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-2 tracking-tight group-hover:text-[#EA580C] transition-colors leading-tight">
+                        {card.title}
+                      </h3>
+                      
+                      <p className="text-gray-500 mt-3 text-xs md:text-sm leading-relaxed">
+                        {card.desc}
+                      </p>
+                    </div>
+
+                    {/* Amenities rendering on wide cards */}
+                    {isWide && card.amenities && card.amenities.length > 0 && (
+                      <div className="mt-6 hidden sm:grid grid-cols-3 gap-3">
+                        {card.amenities.map((item, i) => (
+                          <div key={i} className="flex flex-col items-center text-center bg-gray-50/50 p-2.5 rounded-xl border border-gray-100/60 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
+                            <img 
+                              src={item.img} 
+                              alt={item.title} 
+                              className="w-8 h-8 object-cover rounded-lg mb-1.5 opacity-90 group-hover:opacity-100 transition-opacity"
+                            />
+                            <h4 className="text-[9px] font-bold text-gray-700 line-clamp-1">{item.title}</h4>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Navigation Link CTA */}
+                    <div className="mt-8 flex items-center gap-2 text-xs font-bold text-[#EA580C] group-hover:gap-3 transition-all duration-300">
+                      <span>Learn More</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  </div>
+
+                  {/* Right Column / Interactive Mockup Preview */}
+                  <div className={`flex items-center justify-center w-full ${isWide ? "lg:w-[44%] mt-6 lg:mt-0" : "mt-6"}`}>
+                    <div className="relative w-full group-hover:scale-[1.02] transition-transform duration-300">
+                      {/* Ambient background glow */}
+                      <div className="absolute inset-0 bg-[#EA580C] blur-[40px] opacity-[0.03] group-hover:opacity-[0.06] rounded-full transition-opacity pointer-events-none"></div>
+                      
+                      {renderMockup(card.id)}
+                    </div>
+                  </div>
+
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>

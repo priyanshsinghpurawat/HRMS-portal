@@ -1,11 +1,41 @@
-import request from 'supertest';
-import { app } from '../../src/app.js';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { v2 as cloudinary } from 'cloudinary';
 import { jest } from '@jest/globals';
+
+jest.unstable_mockModule('cloudinary', () => {
+    return {
+        v2: {
+            config: () => {},
+            uploader: {
+                upload_stream: (options, callback) => {
+                    const mockStream = {
+                        write: () => true,
+                        end: () => {},
+                        pipe: function() { return this; },
+                        on: function() { return this; },
+                        once: function() { return this; },
+                        emit: () => {}
+                    };
+                    process.nextTick(() => {
+                        if (callback) {
+                            callback(null, {
+                                secure_url: 'https://res.cloudinary.com/demo/image/upload/v1234567890/sample.pdf',
+                                public_id: 'sample_id'
+                            });
+                        }
+                    });
+                    return mockStream;
+                },
+                destroy: () => Promise.resolve({ result: 'ok' })
+            }
+        }
+    };
+});
+
+const { app } = await import('../../src/app.js');
+const request = (await import('supertest')).default;
+const path = (await import('path')).default;
+const fs = (await import('fs')).default;
+const { fileURLToPath } = await import('url');
+const { dirname } = await import('path');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,12 +48,6 @@ describe('File Upload Integration Tests', () => {
         // Create a dummy file for testing uploads
         dummyFilePath = path.join(__dirname, 'dummy.pdf');
         fs.writeFileSync(dummyFilePath, 'dummy pdf content');
-
-        // Mock Cloudinary upload
-        jest.spyOn(cloudinary.uploader, 'upload').mockResolvedValue({
-            secure_url: 'https://res.cloudinary.com/demo/image/upload/v1234567890/sample.pdf',
-            public_id: 'sample_id'
-        });
     });
 
     afterAll(() => {

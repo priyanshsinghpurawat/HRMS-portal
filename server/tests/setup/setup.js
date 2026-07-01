@@ -24,12 +24,19 @@ beforeAll(async () => {
         await mongoose.disconnect();
     }
     await mongoose.connect(mongoUri);
+    
+    // Increase transaction lock request timeout to avoid 5ms lock acquisition timeouts in tests
+    await mongoose.connection.db.admin().command({
+        setParameter: 1,
+        maxTransactionLockRequestTimeoutMillis: 3000
+    });
 
     // Create collections for all registered models to avoid WriteConflict during transactions
     const models = Object.values(mongoose.connection.models);
     for (const model of models) {
         await model.createCollection();
     }
+    await Promise.all(models.map(model => model.init()));
 }, 120000); // 2 minutes timeout for initial download
 
 beforeEach(() => {

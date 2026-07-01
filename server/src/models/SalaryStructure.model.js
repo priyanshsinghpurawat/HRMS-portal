@@ -63,7 +63,7 @@ const salaryStructureSchema = new Schema(
 salaryStructureSchema.index({ employeeId: 1, effectiveFrom: -1 });
 
 // Pre-save hook to validate gross salary summation
-salaryStructureSchema.pre("save", function (next) {
+salaryStructureSchema.pre("save", function () {
     const calculatedGross = 
         (this.components.basicSalary || 0) +
         (this.components.hra || 0) +
@@ -74,12 +74,8 @@ salaryStructureSchema.pre("save", function (next) {
 
     // Using a small epsilon to account for potential floating point inaccuracies
     if (Math.abs(calculatedGross - this.grossSalary) > 0.01) {
-        return next(
-            new Error(`Validation Error: Sum of components (${calculatedGross}) does not match gross salary (${this.grossSalary})`)
-        );
+        throw new Error(`Validation Error: Sum of components (${calculatedGross}) does not match gross salary (${this.grossSalary})`);
     }
-    
-    next();
 });
 
 export const SalaryStructure = mongoose.model("SalaryStructure", salaryStructureSchema);

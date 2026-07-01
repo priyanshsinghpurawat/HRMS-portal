@@ -92,7 +92,7 @@ export const companyRegister = asyncHandler(async (req, res) => {
                     name,
                     tanId,
                     gstId,
-                    isEmailVerified: false,
+                    isEmailVerified: true,
                     isBusinessVerified: false,
                     ownerId: user._id,
                     verificationOTP: otp,

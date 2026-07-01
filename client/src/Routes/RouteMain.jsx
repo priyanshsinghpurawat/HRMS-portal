@@ -43,6 +43,7 @@ import FaqPage from "../Component/Legal/FaqPage";
 import ForgotPassword from "../Component/Jobportal/AuthPages/ForgotPassword";
 import ResetPassword from "../Component/Jobportal/AuthPages/ResetPassword";
 import ComingSoon from "../Pages/ComingSoon";
+import AdminDashboard from "../Pages/Admin/AdminDashboard";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -149,7 +150,11 @@ function RouteMain() {
           <Route path="/resources" element={<PageTransition><ComingSoon /></PageTransition>} />
           <Route path="/partners" element={<PageTransition><ComingSoon /></PageTransition>} />
           <Route path="/cookies" element={<PageTransition><ComingSoon /></PageTransition>} />
-          <Route path="/admin/*" element={<PageTransition><ComingSoon /></PageTransition>} />
+          {/* Admin Protected Routes */}
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+            <Route path="/admin/*" element={<PageTransition><AdminDashboard /></PageTransition>} />
+          </Route>
 
           {/* 404 */}
           <Route path="*" element={

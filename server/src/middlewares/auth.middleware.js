@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/User.model.js";
@@ -30,6 +31,25 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
         // Attach user to request object
         req.user = user;
+
+        // Dynamically resolve and attach companyId based on role
+        if (user.role === "company") {
+            const company = await mongoose.model("Company").findOne({ ownerId: user._id });
+            if (company) {
+                req.user.companyId = company._id;
+            }
+        } else if (user.role === "hr") {
+            const hrProfile = await HR.findOne({ user: user._id });
+            if (hrProfile) {
+                req.user.companyId = hrProfile.companyId;
+            }
+        } else if (user.role === "employee") {
+            const employeeProfile = await mongoose.model("Employee").findOne({ user: user._id });
+            if (employeeProfile) {
+                req.user.companyId = employeeProfile.company;
+            }
+        }
+
         next();
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access token");

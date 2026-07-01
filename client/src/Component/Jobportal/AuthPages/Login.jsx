@@ -42,8 +42,12 @@ function Login() {
       const response = await loginUser(formData);
       if (response?.success) {
         setFormData({ email: "", password: "" });
-        const redirectPath = location.state?.from || "/jobs";
-        navigate(redirectPath, { replace: true });
+        if (response.role === "admin") {
+          navigate("/admin", { replace: true });
+        } else {
+          const redirectPath = location.state?.from || "/jobs";
+          navigate(redirectPath, { replace: true });
+        }
       }
     } catch (error) {
       console.error("Login Error:", error);

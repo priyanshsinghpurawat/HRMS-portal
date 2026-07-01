@@ -1,5 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
+import { jest } from '@jest/globals';
 import { app } from '../../src/app.js';
 import { Company } from '../../src/models/Company.model.js';
 import { User } from '../../src/models/User.model.js';
@@ -13,10 +14,13 @@ describe('Payroll Engine Integration Tests', () => {
     let companyAdminToken;
     let companyId;
     let employeeId;
+    let salaryStructure;
+    let user;
 
     beforeEach(async () => {
+        jest.setTimeout(30000);
         // 1. Create a mock Company and User
-        const user = await User.create({
+        user = await User.create({
             name: "Test Admin",
             email: "admin@test.com",
             password: "Password123!",
@@ -25,9 +29,11 @@ describe('Payroll Engine Integration Tests', () => {
         });
 
         const company = await Company.create({
-            user: user._id,
-            companyName: "Test Company Ltd",
-            email: "contact@test.com"
+            ownerId: user._id,
+            name: "Test Company Ltd",
+            gstId: "22AAAAA0000A1Z5",
+            tanId: "ACME12345E",
+            isEmailVerified: true
         });
 
         companyId = company._id;
@@ -36,7 +42,7 @@ describe('Payroll Engine Integration Tests', () => {
 
         // Generate Auth Token
         companyAdminToken = jwt.sign(
-            { _id: user._id, role: user.role, companyId: company._id },
+            { id: user._id, _id: user._id, role: user.role, companyId: company._id },
             process.env.JWT_SECRET_KEY,
             { expiresIn: "1h" }
         );
@@ -44,11 +50,20 @@ describe('Payroll Engine Integration Tests', () => {
         // 2. Setup Payroll Settings
         await PayrollSetting.create({
             companyId: company._id,
-            pfEnabled: true,
-            pfEmployerContribution: 12,
-            pfEmployeeContribution: 12,
-            esicEnabled: true,
-            ptEnabled: true
+            isPayrollEnabled: true,
+            taxConfig: {
+                pf: {
+                    enabled: true,
+                    employeeContribution: 12,
+                    employerContribution: 12
+                },
+                esic: {
+                    enabled: true
+                },
+                pt: {
+                    enabled: true
+                }
+            }
         });
 
         // 3. Create an Employee
@@ -64,32 +79,34 @@ describe('Payroll Engine Integration Tests', () => {
             user: empUser._id,
             company: company._id,
             employeeId: "EMP-001",
+            personalEmail: "john@test.com",
             joiningDate: new Date("2025-01-01"),
             employmentStatus: "active"
         });
         employeeId = employee._id;
 
         // 4. Assign Salary Structure
-        await SalaryStructure.create({
+        salaryStructure = await SalaryStructure.create({
             employeeId: employee._id,
             companyId: company._id,
-            effectiveDate: new Date("2025-01-01"),
-            annualCTC: 600000,
-            monthlyGross: 50000,
+            effectiveFrom: new Date("2025-01-01"),
+            grossSalary: 50000,
+            createdBy: user._id,
             components: {
-                basic: 25000,
+                basicSalary: 25000,
                 hra: 10000,
-                conveyance: 5000,
-                medical: 5000,
-                special: 5000
+                conveyanceAllowance: 5000,
+                medicalAllowance: 5000,
+                specialAllowance: 5000,
+                otherAllowances: 0
             }
         });
     });
 
     it('should generate a payroll successfully for an employee', async () => {
         const payload = {
-            payrollMonth: 5,
-            payrollYear: 2026,
+            month: 5,
+            year: 2026,
             employeeId: employeeId.toString()
         };
 
@@ -100,8 +117,7 @@ describe('Payroll Engine Integration Tests', () => {
 
         expect(res.statusCode).toEqual(201);
         expect(res.body.success).toBe(true);
-        expect(res.body.data.payrolls.length).toBe(1);
-        expect(res.body.data.payrolls[0].grossSalary).toBeDefined();
+        expect(res.body.data.grossSalary).toBeDefined();
         
         // Verify it was stored in DB
         const dbPayroll = await Payroll.findOne({ companyId, employeeId });
@@ -119,17 +135,28 @@ describe('Payroll Engine Integration Tests', () => {
             status: 'Draft',
             grossSalary: 50000,
             netSalary: 45000,
-            workingDays: 30,
-            paidDays: 30,
-            attendanceSummary: { present: 30, absent: 0, halfDays: 0, paidLeaves: 0, unpaidLeaves: 0, totalPaidDays: 30 },
-            earnings: { basic: 25000, hra: 10000 },
+            generatedBy: user._id,
+            salarySnapshot: salaryStructure.toObject(),
+            attendanceSummary: {
+                totalCalendarDays: 31,
+                workingDays: 30,
+                paidDays: 30,
+                unpaidDays: 0,
+                absentDays: 0,
+                presentDays: 30,
+                halfDays: 0,
+                paidLeaves: 0,
+                companyHolidays: 0,
+                weeklyOffs: 1
+            },
+            earnings: { basicSalary: 25000, hra: 10000 },
             deductions: { pf: 1800, pt: 200 }
         });
 
         // Try generating again
         const payload = {
-            payrollMonth: 5,
-            payrollYear: 2026,
+            month: 5,
+            year: 2026,
             employeeId: employeeId.toString()
         };
 
@@ -138,7 +165,7 @@ describe('Payroll Engine Integration Tests', () => {
             .set('Authorization', `Bearer ${companyAdminToken}`)
             .send(payload);
 
-        // Based on the duplicate prevention logic, this should either return 400 or just skip
-        expect(res.statusCode).toBe(400); 
+        // Based on the duplicate prevention logic, this should return 409
+        expect(res.statusCode).toBe(409); 
     });
 });

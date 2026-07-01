@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../src/app.js';
 import { Company } from '../../src/models/Company.model.js';
 import { HR } from '../../src/models/HR.model.js';
+import { Profile } from '../../src/models/Profile.model.js';
 import { jest } from '@jest/globals';
 
 describe('Application Integration Tests', () => {
@@ -71,7 +72,7 @@ describe('Application Integration Tests', () => {
                 description: 'Build UI with React',
                 department: 'Engineering',
                 employmentType: 'full-time',
-                experienceLevel: 'mid-level',
+                experienceLevel: 'mid',
                 salaryMin: 60000,
                 salaryMax: 90000,
                 location: 'Remote',
@@ -87,6 +88,16 @@ describe('Application Integration Tests', () => {
             email: 'candidate@test.com', password: 'Password123!'
         });
         candidateToken = candLogin.body.data.accessToken;
+
+        await Profile.findOneAndUpdate(
+            { user: candLogin.body.data.user._id },
+            {
+                resume: {
+                    url: "http://example.com/mock-resume.pdf",
+                    public_id: "mock-resume-id"
+                }
+            }
+        );
     });
 
     describe('POST /api/v1/jobs/:jobId/apply', () => {

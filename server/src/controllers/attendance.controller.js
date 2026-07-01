@@ -7,7 +7,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { getStartOfDay } from "../utils/startOfDay.js";
 import { calculateHours } from "../utils/calculateHours.js";
-import { isWithinGeofence } from "../services/location.service.js";
+import { isWithinGeofence, calculateDistance } from "../services/location.service.js";
 import * as attendanceService from "../services/attendance/attendance.service.js";
 
 // @desc    Check-in Employee
@@ -40,7 +40,12 @@ export const checkIn = asyncHandler(async (req, res) => {
 
     const isValidLocation = isWithinGeofence(latitude, longitude, geofence);
     if (!isValidLocation) {
-        throw new ApiError(403, "Check-in failed. You are outside the allowed office area.");
+        const [geofenceLng, geofenceLat] = geofence.location.coordinates;
+        const distance = calculateDistance(latitude, longitude, geofenceLat, geofenceLng);
+        throw new ApiError(
+            403,
+            `Check-in failed. You are outside the allowed office area. Distance: ${Math.round(distance)}m, Allowed Radius: ${geofence.allowedRadius}m.`
+        );
     }
 
     // Create or update attendance record

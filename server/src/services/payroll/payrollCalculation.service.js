@@ -54,7 +54,8 @@ export const executePayrollCalculation = (
     manualEarnings, 
     manualDeductions
 ) => {
-    const { grossSalary, basicSalary, hra, specialAllowance, medicalAllowance, conveyanceAllowance, otherAllowances } = salaryStructure;
+    const { grossSalary, components } = salaryStructure;
+    const { basicSalary, hra, specialAllowance, medicalAllowance, conveyanceAllowance, otherAllowances } = components || {};
     const { totalCalendarDays, paidDays, unpaidDays } = workingDaysSummary;
 
     // Daily salary
