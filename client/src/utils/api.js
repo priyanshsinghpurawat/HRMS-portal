@@ -32,7 +32,6 @@ export const getUser = () => {
 
     return user ? JSON.parse(user) : null;
   } catch (error) {
-    console.error("Error parsing user:", error);
     return null;
   }
 };
@@ -42,7 +41,6 @@ export const getUser = () => {
 // GLOBAL API ERROR HANDLER
 // ==========================
 export const handleApiError = (error, navigate = null) => {
-  console.error("API Error:", error);
 
   const status = error?.response?.status || error?.status;
   const message =

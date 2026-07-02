@@ -100,7 +100,8 @@ const companySchema = new Schema(
         ownerId: {
             type: Schema.Types.ObjectId,
             ref: "User",
-            required: [true, "Owner ID is required"]
+            required: [true, "Owner ID is required"],
+            index: true
         },
 
         hrIds: [

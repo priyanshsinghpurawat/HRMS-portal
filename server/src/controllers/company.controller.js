@@ -132,8 +132,7 @@ export const companyRegister = asyncHandler(async (req, res) => {
             name,
             otp
         });
-    } catch (emailError) {
-        console.error("Failed to send company verification OTP email:", emailError);
+    } catch {
     }
 
     // Fetch created user without password/refreshToken
@@ -500,8 +499,7 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
             paymentId: razorpay_payment_id,
             expiresAt
         });
-    } catch (emailError) {
-        console.error("Failed to send subscription confirmation email:", emailError);
+    } catch {
     }
 
     return res.status(200).json(
@@ -897,8 +895,7 @@ export const updateCompanyProfile = asyncHandler(async (req, res) => {
                 const filenameWithExt = parts[parts.length - 1];
                 const publicId = `job_portal/company_logos/${filenameWithExt.split(".")[0]}`;
                 await deleteFromCloudinary(publicId, "image");
-            } catch (err) {
-                console.error("Error extracting and deleting logo from Cloudinary:", err);
+            } catch {
             }
         }
 

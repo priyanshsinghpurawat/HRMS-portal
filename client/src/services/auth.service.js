@@ -15,3 +15,7 @@ export const registerApi = async (formData) => {
 export const logoutApi = async () => {
   return apiPost("/auth/logout", {});
 };
+
+export const googleLoginApi = async (token) => {
+  return apiPostPublic("/auth/google", { token });
+};

@@ -36,20 +36,8 @@ export const sendEmail = async ({ to, subject, body, html }) => {
         };
 
         await getTransporter().sendMail(mailOptions);
-        console.log(`Email successfully sent to ${to}.`);
         return true;
-    } catch (error) {
-        console.error("Failed to send email:", error.message || error);
-        // Fallback to console log in development/failure so developer can still see it
-        console.log(`\n================ EMAIL SENT (FALLBACK) ================`);
-        console.log(`To: ${to}`);
-        console.log(`Subject: ${subject}`);
-        console.log(`Body:\n${body}`);
-        if (html) {
-            console.log(`HTML Template Loaded successfully (Length: ${html.length} chars)`);
-        }
-        console.log(`=======================================================\n`);
-        return false;
+    } catch {
     }
 };
 

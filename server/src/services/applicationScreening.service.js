@@ -15,13 +15,11 @@ export const screenApplication = async (applicationId) => {
     try {
         const application = await Application.findById(applicationId);
         if (!application) {
-            console.error(`Application not found: ${applicationId}`);
             return;
         }
 
         const job = await Job.findById(application.job);
         if (!job) {
-            console.error(`Job not found: ${application.job}`);
             return;
         }
 
@@ -126,8 +124,7 @@ Ensure the response contains only valid JSON. Do not wrap the JSON output in mar
                         aiResult = JSON.parse(textResult.trim());
                     }
                 }
-            } catch (err) {
-                console.error("Gemini Screening API call failed, using fallback logic:", err);
+            } catch {
             }
         }
 
@@ -177,8 +174,7 @@ Ensure the response contains only valid JSON. Do not wrap the JSON output in mar
         // Trigger dynamic queue rankings updates for all applications of the job
         await assignQueuesForJob(job._id);
 
-    } catch (error) {
-        console.error(`Error screening application ${applicationId}:`, error);
+    } catch {
     }
 };
 
@@ -222,7 +218,6 @@ export const assignQueuesForJob = async (jobId) => {
         }
 
         console.log(`Recalculated queue ranks and statuses for job ${jobId}. Total applications: ${applications.length}`);
-    } catch (error) {
-        console.error(`Error assigning queues for job ${jobId}:`, error);
+    } catch {
     }
 };

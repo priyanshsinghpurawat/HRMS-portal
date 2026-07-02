@@ -72,6 +72,15 @@ export const registerApi = async (formData) => {
   return handleResponse(response);
 };
 
+export const googleLoginApi = async (token) => {
+  const response = await fetch(`${AUTH_BASE_URL}/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({ token }),
+  });
+  return handleResponse(response);
+};
+
 export const logoutApi = async () => {
   const response = await fetch(`${AUTH_BASE_URL}/logout`, {
     method: "POST",

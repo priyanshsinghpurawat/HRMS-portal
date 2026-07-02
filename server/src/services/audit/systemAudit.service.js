@@ -16,14 +16,13 @@ export const logSystemEvent = (companyId, userId, action, module, details = {}, 
                 details
             };
 
-            if (req) {
-                auditData.ipAddress = req.ip || req.connection.remoteAddress;
-                auditData.userAgent = req.get('User-Agent');
-            }
-
-            await SystemAudit.create(auditData);
-        } catch (error) {
-            console.error(`[AUDIT ERROR] Failed to log system event: ${error.message}`);
+        if (req) {
+            auditData.ipAddress = req.ip || req.connection.remoteAddress;
+            auditData.userAgent = req.get('User-Agent');
         }
+
+        await SystemAudit.create(auditData);
+    } catch {
+    }
     });
 };

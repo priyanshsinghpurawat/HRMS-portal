@@ -18,6 +18,7 @@ import {
   loginApi,
   registerApi,
   logoutApi,
+  googleLoginApi,
 } from "../Api";
 
 // HRMS APIs
@@ -319,6 +320,66 @@ export default function AuthProvider({ children }) {
   };
 
   // ==========================
+  // GOOGLE LOGIN
+  // ==========================
+  const googleLoginUser = async (credential) => {
+    try {
+      setUserAuthLoading(true);
+
+      const { response, data } = await googleLoginApi(credential);
+
+      if (response.ok && data?.data?.user) {
+        const loggedInUser = data.data.user;
+        const accessToken = data?.data?.accessToken || data?.accessToken;
+        const refreshToken = data?.data?.refreshToken || data?.refreshToken;
+
+        if (["company", "hr", "employee"].includes(loggedInUser?.role)) {
+          toast.error("Company accounts must use HRMS portal");
+          return { success: false, message: "Please login at HRMS portal" };
+        }
+
+        if (accessToken) {
+          Cookies.set("jobdekho_token", accessToken, {
+            expires: 7,
+            secure: window.location.protocol === "https:",
+            sameSite: "lax",
+          });
+        }
+        if (refreshToken) {
+          Cookies.set("jobdekho_refresh_token", refreshToken, {
+            expires: 30,
+            secure: window.location.protocol === "https:",
+            sameSite: "lax",
+          });
+        }
+
+        sessionStorage.setItem("jobdekho_user", JSON.stringify(loggedInUser));
+
+        setUser(loggedInUser);
+        setIsAuthenticated(true);
+
+        setProfileFetchTrigger(prev => prev + 1);
+
+        toast.success(`Welcome, ${loggedInUser?.name || "User"}!`);
+        return {
+          success: true,
+          user: loggedInUser,
+          role: loggedInUser?.role,
+          message: data?.message,
+        };
+      }
+
+      toast.error(data?.message || "Google login failed");
+      return { success: false, message: data?.message };
+    } catch (error) {
+      toast.error("Something went wrong during Google login");
+      return { success: false };
+    } finally {
+      setUserAuthLoading(false);
+    }
+  };
+
+  // ==========================
   // LOGOUT (Merged Snippet Here)
   // ==========================
   const logoutUser = async () => {
@@ -478,6 +539,7 @@ export default function AuthProvider({ children }) {
         authLoading,
         userAuthLoading,
         loginUser,
+        googleLoginUser,
         registerUser,
         logoutUser,
         checkAuthStatus,
